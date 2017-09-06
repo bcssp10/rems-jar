@@ -1,6 +1,7 @@
 package com.rems.account;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,12 @@ public class AccountService {
 
 	public void deleteAccount(int id) {
 		accountRepository.delete(id);
+	}
+
+	public List<Object[]> calculateprofitLoss(int accountId, Date from, Date to) {
+		List<Object[]> objects = new ArrayList<>();
+		accountRepository.calculateProfitLoss(accountId, from, to).forEach(objects::add);
+		return objects;
 	}
 
 }

@@ -1,5 +1,9 @@
 package com.rems.account;
 
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.rems.util.ParamFactory;
 
 @Controller
 @RequestMapping("/account")
@@ -71,4 +77,23 @@ public class AccountController {
 		return "redirect:/party";
 	}
 
+	// show profitLoss form
+	@RequestMapping(value = "/profit_loss", method = RequestMethod.GET)
+	public String profitLossForm(Model model) {
+		model.addAttribute("accountList", accountService.getAllAccounts());
+		return "account/profit_loss_form";
+	}
+	
+	// calculate profitLoss
+	@RequestMapping(value = "/profit_loss", method = RequestMethod.POST)
+	public String profitLoss(HttpServletRequest request , Model model){
+
+		int accountId = ParamFactory.getInt(request, "accountId");
+		Date from = ParamFactory.getDate(request, "from");
+		Date to = ParamFactory.getDate(request, "to");
+		
+		model.addAttribute("ledgerList",accountService.calculateprofitLoss(accountId,from,to))
+			 .addAttribute("account",accountService.getAccountById(accountId));
+		return "account/profit_loss";
+	}
 }

@@ -31,8 +31,11 @@
 	    <a href='<c:url value="/voucher/general/ledger"/>'><button type="button"
 				class="btn btn-primary btn-sx">Account Ledger</button>
 		</a>
+		<a href='<c:url value="/account/profit_loss"/>'><button type="button"
+				class="btn btn-primary btn-sx">Profit Loss</button>
 		<a href='<c:url value="/voucher/general/trialbalance"/>'><button type="button"
 				class="btn btn-primary btn-sx">Trial Balance</button>
+		</a>
 		</a>
 		<a href='<c:url value="/party/add"/>'><button type="button"
 				class="btn btn-primary btn-sx pull-right">Add New Party</button> <br><br>

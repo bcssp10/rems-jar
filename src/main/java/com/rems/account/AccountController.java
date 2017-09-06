@@ -1,4 +1,4 @@
-package com.rems.party;
+package com.rems.account;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,23 +8,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.rems.account.AccountService;
-
 @Controller
-@RequestMapping("/party")
-public class PartyController {
+@RequestMapping("/account")
+public class AccountController {
 
 	@Autowired
-	private PartyService partyService;
-
-	@Autowired 
 	private AccountService accountService;
+
 	
-	// view all parties
+	// view all accounts
 	@RequestMapping
-	public String getAllParties(Model model) {
-		model.addAttribute("parties", partyService.getAllParties());
-		model.addAttribute("accounts",accountService.getAllAccounts());
+	public String getAllAccounts(Model model) {
+		model.addAttribute("accounts", accountService.getAllAccounts());
 		return "party/party_list";
 	}
 	
@@ -34,19 +29,19 @@ public class PartyController {
 	 ================================
 	 */
 
-	// edit party form
+	// edit account form
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String getParty(@PathVariable int id, Model model) {
+	public String getAccount(@PathVariable int id, Model model) {
 
-		model.addAttribute("party", partyService.getPartyById(id));
-		return "party/party_form";
+		model.addAttribute("account", accountService.getAccountById(id));
+		return "account/account_form";
 	}
 
-	// add party form
+	// add account form
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String partyForm(Model model) {
-		model.addAttribute("party", new Party());
-		return "party/party_form";
+	public String accountForm(Model model) {
+		model.addAttribute("account", new Account());
+		return "account/account_form";
 	}
 
 	/*
@@ -55,24 +50,24 @@ public class PartyController {
 	 ================================
 	 */
 	
-	// save new party
+	// save new account
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String saveParty(Model model, @ModelAttribute("party") Party party) {
-		partyService.save(party);
+	public String saveAccount(Model model, @ModelAttribute("account") Account account) {
+		accountService.save(account);
 		return "redirect:/party";
 	}
 
-	// update party
+	// update account
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-	public String updateParty(@ModelAttribute Party party, Model model, @PathVariable int id) {
-		partyService.updatePartyById(id, party);
+	public String updateAccount(@ModelAttribute Account party, Model model, @PathVariable int id) {
+		accountService.updateAccountById(id, party);
 		return "redirect:/party";
 	}
 
-	// delete party
+	// delete account
 	@RequestMapping(value = "/delete/{id}")
-	public String deleteParty(Model model, @PathVariable int id) {
-		partyService.deleteParty(id);
+	public String deleteAccount(Model model, @PathVariable int id) {
+		accountService.deleteAccount(id);
 		return "redirect:/party";
 	}
 

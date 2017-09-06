@@ -14,8 +14,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
+import javax.persistence.ForeignKey;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.rems.account.Account;
 import com.rems.enumeration.PaymentType;
 import com.rems.party.Party;
 
@@ -36,6 +38,10 @@ public class Receipt {
 	@JoinColumn(name="party_id",nullable=true)
 	private Party party;
 
+	@ManyToOne
+	@JoinColumn(name="account_id", foreignKey = @ForeignKey(name = "FK_RECEIPT_ACCOUNT"), nullable=true)
+	private Account account;
+	
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Column(name="date")
 	private Date date;
@@ -142,14 +148,24 @@ public class Receipt {
 		this.cashReceivedBy = cashReceivedBy;
 	}
 
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
 	public boolean isNew() {
 		return this.receiptId == -1;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Receipt [receiptId=" + receiptId + ", date=" + date + ", cashReceivedFrom=" + party
-				+ ", amount=" + amount + ", paymentType=" + paymentType + ", forPaymentOf=" + forPaymentOf + ", bankName=" + bankName
-				+ ", bankBranch=" + bankBranch + ", cashReceivedBy=" + cashReceivedBy + "]";
+		return "Receipt [receiptId=" + receiptId + ", party=" + party + ", account=" + account + ", date=" + date
+				+ ", amount=" + amount + ", paymentType=" + paymentType + ", forPaymentOf=" + forPaymentOf
+				+ ", bankName=" + bankName + ", bankBranch=" + bankBranch + ", chequeNo=" + chequeNo
+				+ ", cashReceivedBy=" + cashReceivedBy + "]";
 	}
+	
 }

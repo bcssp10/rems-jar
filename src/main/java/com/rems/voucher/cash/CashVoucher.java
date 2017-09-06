@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +17,7 @@ import javax.persistence.NamedQuery;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.rems.account.Account;
 import com.rems.enumeration.PaymentType;
 import com.rems.party.Party;
 
@@ -34,6 +36,10 @@ public class CashVoucher {
 	@ManyToOne
 	@JoinColumn(name = "party_id", nullable = true)
 	private Party party;
+	
+	@ManyToOne
+	@JoinColumn(name="account_id", foreignKey = @ForeignKey(name = "FK_CASH_VOUCHER_ACCOUNT"), nullable=true)
+	private Account account;
 
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Column(name = "date")
@@ -140,6 +146,14 @@ public class CashVoucher {
 	public void setCashReceivedBy(String cashReceivedBy) {
 		this.cashReceivedBy = cashReceivedBy;
 	}
+	
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
 
 	public boolean isNew() {
 		return this.cashVoucherId == -1;
@@ -147,9 +161,10 @@ public class CashVoucher {
 
 	@Override
 	public String toString() {
-		return "CashVoucher [cashVoucherId=" + cashVoucherId + ", party=" + party + ", date=" + date + ", amount="
-				+ amount + ", paymentType=" + paymentType + ", forPaymentOf=" + forPaymentOf + ", bankName=" + bankName
-				+ ", bankBranch=" + bankBranch + ", chequeNo=" + chequeNo + ", cashReceivedBy=" + cashReceivedBy + "]";
+		return "CashVoucher [cashVoucherId=" + cashVoucherId + ", party=" + party + ", account=" + account + ", date="
+				+ date + ", amount=" + amount + ", paymentType=" + paymentType + ", forPaymentOf=" + forPaymentOf
+				+ ", bankName=" + bankName + ", bankBranch=" + bankBranch + ", chequeNo=" + chequeNo
+				+ ", cashReceivedBy=" + cashReceivedBy + "]";
 	}
 
 }

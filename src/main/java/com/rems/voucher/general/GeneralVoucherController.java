@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.rems.account.AccountService;
 import com.rems.party.PartyService;
 import com.rems.util.ParamFactory;
 
@@ -25,6 +26,9 @@ public class GeneralVoucherController {
 
 	@Autowired
 	private PartyService partyService;
+	
+	@Autowired
+	private AccountService accountService;
 
 	// view all receipts
 	@RequestMapping
@@ -37,8 +41,9 @@ public class GeneralVoucherController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String getGeneralVoucher(@PathVariable int id, Model model) {
 
-		model.addAttribute("general_voucher", generalVoucherService.getGeneralVoucherById(id)).addAttribute("partyList",
-				partyService.getAllParties());
+		model.addAttribute("general_voucher", generalVoucherService.getGeneralVoucherById(id))
+				.addAttribute("accountList", accountService.getAllAccounts())
+				.addAttribute("partyList", partyService.getAllParties());
 
 		return "voucher/general/general_voucher_form";
 	}
@@ -47,8 +52,9 @@ public class GeneralVoucherController {
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String generalVoucherForm(Model model) {
 
-		model.addAttribute("general_voucher", new GeneralVoucher()).addAttribute("partyList",
-				partyService.getAllParties());
+		model.addAttribute("general_voucher", new GeneralVoucher())
+				.addAttribute("accountList", accountService.getAllAccounts())
+				.addAttribute("partyList", partyService.getAllParties());
 
 		return "voucher/general/general_voucher_form";
 	}

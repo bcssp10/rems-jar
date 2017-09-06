@@ -46,6 +46,7 @@
 					<th>No.</th>
 					<th>Date</th>
 					<th>Debit</th>
+					<th>Account</th>
 					<th>Amount</th>
 					<th>Credit</th>
 					<th>Details</th>
@@ -62,12 +63,13 @@
 						<span title="Print" class="glyphicon glyphicon-print"></span></a>
 						</td>
 						<td> 
-						${generalVoucher.generalVoucherId}
+						JV-<fmt:formatNumber minIntegerDigits="4" pattern="#" value="${generalVoucher.generalVoucherId}" />
 						</td>
 						<fmt:formatDate pattern="dd/MM/yyyy" value="${generalVoucher.date}"
 							var="date" />
 						<td>${date}</td>
 						<td><a href="/voucher/general/paidTo/${generalVoucher.cashPaidTo.partyId}">${generalVoucher.cashPaidTo.name}</a></td>
+						<td>${generalVoucher.account.name}</td>
 						<td>${generalVoucher.amount}</td>
 						<td><a href="/voucher/general/paidBy/${generalVoucher.cashPaidBy.partyId}">${generalVoucher.cashPaidBy.name}</a></td>
 						<td>${generalVoucher.details}</td>

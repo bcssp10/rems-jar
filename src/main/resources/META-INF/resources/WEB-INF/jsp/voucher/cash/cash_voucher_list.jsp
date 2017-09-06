@@ -45,16 +45,17 @@
 				    <th>Actions</th>
 					<th>No.</th>
 					<th>Date</th>
-					<th>Party Name</th>
+					<th>Party</th>
+					<th>Account</th>
 					<th>Amount</th>
 					<th>Payment Type</th>
                     <!-- babat -->
    					<th>For Payment of</th>
-					<th>Bank</th>
+					<!--<th>Bank</th>
 					<th>Branch</th>
 					<th>Cheque No</th>
-					<!-- ReferenceName -->
-					<th>Paid By</th>
+					 ReferenceName
+					<th>Paid By</th> -->
 				</tr>
 			</thead>
 			<tbody>
@@ -68,19 +69,20 @@
 						<span title="Print" class="glyphicon glyphicon-print"></span></a>
 						</td>
 						<td> 
-						${cashVoucher.cashVoucherId}
+						CP-<fmt:formatNumber minIntegerDigits="4" pattern="#" value="${cashVoucher.cashVoucherId}" /> 
 						</td>
 						<fmt:formatDate pattern="dd/MM/yyyy" value="${cashVoucher.date}"
 							var="date" />
 						<td>${date}</td>
 						<td><a href="/voucher/cash/party/${cashVoucher.party.partyId}">${cashVoucher.party.name}</a></td>
+						<td>${cashVoucher.account.name}</td>
 						<td>${cashVoucher.amount}</td>
 						<td>${cashVoucher.paymentType}</td>
 						<td>${cashVoucher.forPaymentOf}</td>
-						<td>${cashVoucher.bankName}</td>
+						<%-- <td>${cashVoucher.bankName}</td>
 						<td>${cashVoucher.bankBranch}</td>
 						<td>${cashVoucher.chequeNo}</td>
-						<td>${cashVoucher.cashReceivedBy}</td>
+						<td>${cashVoucher.cashReceivedBy}</td> --%>
 					</tr>
 				</c:forEach>
 			</tbody>

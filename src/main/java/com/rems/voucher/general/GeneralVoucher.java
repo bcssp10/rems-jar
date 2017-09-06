@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +16,7 @@ import javax.persistence.NamedQuery;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.rems.account.Account;
 import com.rems.party.Party;
 
 @Entity
@@ -51,6 +53,10 @@ public class GeneralVoucher {
 	@ManyToOne
 	@JoinColumn(name = "cash_paid_to", nullable = true)
 	private Party cashPaidTo;
+	
+	@ManyToOne
+	@JoinColumn(name="account_id", foreignKey = @ForeignKey(name = "FK_GENERAL_VOUCHER_ACCOUNT"), nullable=true)
+	private Account account;
 
 	@Column(name = "amount")
 	private Double amount;
@@ -110,7 +116,23 @@ public class GeneralVoucher {
 		this.details = details;
 	}
 
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
 	public boolean isNew() {
 		return this.generalVoucherId == -1;
 	}
+
+	@Override
+	public String toString() {
+		return "GeneralVoucher [generalVoucherId=" + generalVoucherId + ", date=" + date + ", cashPaidTo=" + cashPaidTo
+				+ ", account=" + account + ", amount=" + amount + ", cashPaidBy=" + cashPaidBy + ", details=" + details
+				+ "]";
+	}
+	
 }

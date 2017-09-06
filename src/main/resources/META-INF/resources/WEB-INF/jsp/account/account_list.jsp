@@ -21,7 +21,6 @@
 .table-striped > tbody > tr:nth-child(2n) > td, .table-striped > tbody > tr:nth-child(2n) > th {
    background-color: lightblue;
 }
-p{text-align:center}
 </style>
 
 </head>
@@ -29,66 +28,49 @@ p{text-align:center}
 <br>
 
 	<div class="container">
-		<a href='<c:url value="/receipt/add"/>'><button type="button"
-				class="btn btn-primary btn-sx pull-right">Add New Receipt</button> <br><br>
+	    <a href='<c:url value="/voucher/general/ledger"/>'><button type="button"
+				class="btn btn-primary btn-sx">Account Ledger</button>
+		</a>
+		<a href='<c:url value="/voucher/general/trialbalance"/>'><button type="button"
+				class="btn btn-primary btn-sx">Trial Balance</button>
+		</a>
+		<a href='<c:url value="/party/add"/>'><button type="button"
+				class="btn btn-primary btn-sx pull-right">Add New Party</button> <br><br>
 		</a>
         <div class="row">
 			<div class="col-md-12">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						<h3 class="panel-title">Receipt List</h3>						
+						<h3 class="panel-title">Party List</h3>						
 					</div>
 					<br>
         <div class="table-responsive">
-		<table class="table table-bordered dt-responsive nowrap table table-striped" id="rec_table">
+		<table class="table table-bordered dt-responsive nowrap table table-striped" id="party_table">
 			<thead style="background-color:#689efd">
 				<tr>
 				    <th>Actions</th>
 					<th>No.</th>
-					<th>Date</th>
-					<th>Party</th>
-					<th>Account</th>
-					<th>Amount</th>
-					<th>Payment Type</th>
-                    <!-- babat -->
-   					<th>For Payment of</th>
-					<!-- <th>Bank</th>
-					<th>Branch</th>
-					<th>Cheque No</th>
-					ReferenceName
-					<th>Received By</th> -->
+					<th>Name</th>
+					<th>Phone</th>
+					<th>Address</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="receipt" items="${receipts}">
+				<c:forEach var="party" items="${parties}">
 					<tr>
-					    <td><a href="/receipt/${receipt.receiptId}">
+					    <td><a href="/party/${party.partyId}">
 						 <span title="Edit" class="glyphicon glyphicon-pencil" ></span></a>&nbsp;
-				         <a href="/receipt/delete/${receipt.receiptId}"> 
-				         <span title="Delete" class="glyphicon glyphicon-trash"></span></a>&nbsp;
-						<a href="/receipt/print/${receipt.receiptId}">
-						<span title="Print" class="glyphicon glyphicon-print"></span></a>
+				         <a href="/party/delete/${party.partyId}"> 
+				         <span title="Delete" class="glyphicon glyphicon-trash"></span></a>
 						</td>
-						<td>
-						CR-<fmt:formatNumber minIntegerDigits="4" pattern="#" value="${receipt.receiptId}" /> 
-						</td>
-						<fmt:formatDate pattern="dd/MM/yyyy" value="${receipt.date}"
-							var="date" />
-						<td>${date}</td>
-						<td><a href="/receipt/party/${receipt.party.partyId}">${receipt.party.name}</a></td>
-						<td>${receipt.account.name}</td>
-						<td>${receipt.amount}</td>
-						<td>${receipt.paymentType}</td>
-						<td>${receipt.forPaymentOf}</td>
-						<%-- <td>${receipt.bankName}</td>
-						<td>${receipt.bankBranch}</td>
-						<td>${receipt.chequeNo}</td>
-						<td>${receipt.cashReceivedBy}</td> --%>
+						<td>${party.partyId}</td>
+						<td>${party.name}</td>
+						<td>${party.phone}</td>
+						<td>${party.address}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
-		<p><b>Total Amount :</b> ${total} </p>
 		</div>
 		</div>
 		</div>
@@ -98,8 +80,8 @@ p{text-align:center}
 
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#rec_table').DataTable();
-    $("#receipt_page").addClass('active');
+    $('#party_table').DataTable();
+    $("#dashboard_page").addClass('active');
 } );
 </script>
     

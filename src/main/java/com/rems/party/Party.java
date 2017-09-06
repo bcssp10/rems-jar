@@ -27,12 +27,14 @@ public class Party {
 
 	private String address;
 	
+	@Column(name = "opening_balance" ,columnDefinition="double default 0")
+	private double openingBalance;
+	
 	@OneToMany(mappedBy="party",fetch = FetchType.LAZY)
 	private List<Receipt> receipts;
 	
 	@OneToMany(mappedBy="party",fetch = FetchType.LAZY)
 	private List<CashVoucher> cashVouchers;
-	
 	
 	
 	public int getPartyId() {
@@ -83,13 +85,22 @@ public class Party {
 		this.cashVouchers = cashVouchers;
 	}
 
+	public double getOpeningBalance() {
+		return openingBalance;
+	}
+
+	public void setOpeningBalance(double openingBalance) {
+		this.openingBalance = openingBalance;
+	}
+
 	public boolean isNew() {
 		return this.partyId == -1;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Party [partyId=" + partyId + ", name=" + name + ", phone=" + phone + ", address=" + address + "]";
+		return "Party [partyId=" + partyId + ", name=" + name + ", phone=" + phone + ", address=" + address
+				+ ", openingBalance=" + openingBalance + "]";
 	}
 	
 }

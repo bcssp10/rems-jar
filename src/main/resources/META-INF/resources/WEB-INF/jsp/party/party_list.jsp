@@ -63,10 +63,49 @@
 				         <a href="/party/delete/${party.partyId}"> 
 				         <span title="Delete" class="glyphicon glyphicon-trash"></span></a>
 						</td>
-						<td>${party.partyId}</td>
+						<td><fmt:formatNumber minIntegerDigits="2" pattern="#" value="${party.partyId}" /></td>
 						<td>${party.name}</td>
 						<td>${party.phone}</td>
 						<td>${party.address}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		</div>
+		</div>
+		</div>
+	</div>
+	
+		<a href='<c:url value="/account/add"/>'><button type="button"
+				class="btn btn-primary btn-sx pull-right">Add New Account</button> <br><br>
+		</a>
+        <div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Account List</h3>						
+					</div>
+					<br>
+        <div class="table-responsive">
+		<table class="table table-bordered dt-responsive nowrap table table-striped" id="account_table">
+			<thead style="background-color:#689efd">
+				<tr>
+				    <th>Actions</th>
+					<th>No.</th>
+					<th>Name</th>
+					<th>Details</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="account" items="${accounts}">
+					<tr>
+					    <td><a href="/account/${account.accountId}">
+						 <span title="Edit" class="glyphicon glyphicon-pencil" ></span></a>&nbsp;
+				         <a href="/account/delete/${account.accountId}"> 
+				         <span title="Delete" class="glyphicon glyphicon-trash"></span></a>
+						</td>
+						<td>AC-<fmt:formatNumber minIntegerDigits="4" pattern="#" value="${account.accountId}" /></td>
+						<td>${account.name}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -81,6 +120,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
     $('#party_table').DataTable();
+    $('#account_table').DataTable();
     $("#dashboard_page").addClass('active');
 } );
 </script>

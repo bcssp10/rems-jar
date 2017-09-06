@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.rems.account.AccountService;
 import com.rems.enumeration.PaymentType;
 import com.rems.party.PartyService;
 import com.rems.receipt.Receipt;
@@ -24,6 +25,9 @@ public class CashVoucherController {
 	@Autowired
 	private PartyService partyService;
 
+	@Autowired
+	private AccountService accountService;
+	
 	// view all receipts
 	@RequestMapping
 	public String getAllCashVouchers(Model model) {
@@ -37,6 +41,7 @@ public class CashVoucherController {
 
 		model.addAttribute("cash_voucher", cashVoucherService.getCashVoucherById(id))
 			 .addAttribute("paymentTypes",PaymentType.findAll())
+			 .addAttribute("accountList",accountService.getAllAccounts())
 			 .addAttribute("partyList",partyService.getAllParties());
 
 		return "voucher/cash/cash_voucher_form";
@@ -48,6 +53,7 @@ public class CashVoucherController {
 
 		model.addAttribute("cash_voucher", new CashVoucher())
 			 .addAttribute("paymentTypes", PaymentType.findAll())
+			 .addAttribute("accountList",accountService.getAllAccounts())
 			 .addAttribute("partyList",partyService.getAllParties());
 
 		return "voucher/cash/cash_voucher_form";

@@ -49,6 +49,12 @@
 					</form:select>
 				</div>
 				<div class="col-xs-3 form-group">
+					<label for="account.accountId">Account</label>
+					<form:select path="account.accountId" class="form-control">
+						<form:options itemValue="accountId" itemLabel="name" items="${accountList}" />
+					</form:select>
+				</div>
+				<div class="col-xs-3 form-group">
 					<label for="amount">Amount</label>
 					<form:input type="text" class="form-control" path="amount" />
 				</div>
@@ -97,7 +103,6 @@
 		</form:form>
 
 	</div>
-
 </body>
 <script type="text/javascript">
 	$(document).ready(function() {

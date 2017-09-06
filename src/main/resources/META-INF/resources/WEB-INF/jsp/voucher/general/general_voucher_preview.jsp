@@ -55,7 +55,7 @@ h1 {
 					<label for="receiptId" class="col-sm-2 col-form-label">No</label>
 					<div class="col-sm-10">
 						<p>
-							<c:out value="${general_voucher.generalVoucherId}" />
+							JV-<fmt:formatNumber minIntegerDigits="4" pattern="#" value="${general_voucher.generalVoucherId}" />
 							&nbsp;
 						</p>
 						<br>
@@ -73,7 +73,18 @@ h1 {
 						<br>
 					</div>
 				</div>
-
+				
+					<div class="col-xs-10 form-group row">
+					<label for="amount" class="col-sm-2 col-form-label">Account</label>
+					<div class="col-sm-4">
+						<p>
+							<c:out value="${general_voucher.account.name}" />
+							&nbsp;
+						</p>
+						<br>
+					</div>
+				</div>
+				
 				<div class="col-xs-10 form-group row">
 					<label for="amount" class="col-sm-2 col-form-label">Amount</label>
 					<div class="col-sm-4">

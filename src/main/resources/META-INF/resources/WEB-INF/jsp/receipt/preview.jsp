@@ -55,7 +55,7 @@ h1 {
 					<label for="receiptId" class="col-sm-2 col-form-label">No</label>
 					<div class="col-sm-10">
 						<p>
-							<c:out value="${receipt.receiptId}" />
+							CR-<fmt:formatNumber minIntegerDigits="4" pattern="#" value="${receipt.receiptId}" /> 
 							&nbsp;
 						</p>
 						<br>
@@ -67,6 +67,16 @@ h1 {
 					<div class="col-sm-4">
 						<p>
 							<c:out value="${receipt.party.name}" />
+							&nbsp;
+						</p>
+					</div>
+				</div>
+
+				<div class="col-xs-10 form-group row">
+					<label for="amount" class="col-sm-2 col-form-label">Account</label>
+					<div class="col-sm-4">
+						<p>
+							<c:out value="${receipt.account.name}" />
 							&nbsp;
 						</p>
 					</div>

@@ -11,45 +11,38 @@
 			M Rehan Enterprises<br>
 		</h1>
 		<c:choose>
-			<c:when test="${party['new']}">
-				<c:set var="action" value="/party/add" />
+			<c:when test="${account['new']}">
+				<c:set var="action" value="/account/add" />
 				<c:set var="button" value="Save" />
 				<h2 style="text-align: center">
-					Add Party<br> <br>
+					Add Account<br> <br>
 				</h2>
 			</c:when>
 			<c:otherwise>
-				<c:set var="action" value="/party/update/${party.partyId}" />
+				<c:set var="action" value="/account/update/${account.accountId}" />
 				<c:set var="button" value="Update" />
 				<h2 style="text-align: center">
-					Edit Party<br> <br>
+					Edit Account<br> <br>
 				</h2>
 			</c:otherwise>
 		</c:choose>
 
 		<form:form class=".form-horizontal" action="${action}" method="post"
-			modelAttribute="party">
-			<form:hidden class="form-control" value="${party.partyId}"
-				path="partyId" />
+			modelAttribute="account">
+			<form:hidden class="form-control" value="${account.accountId}"
+				path="accountId" />
 
 			<div class="col-xs-12">
 
 				<div class="col-xs-3 form-group">
-					<label for="name">Party Name</label>
+					<label for="name">Name</label>
 					<form:input type="text" class="form-control" path="name" />
 				</div>
 				<div class="col-xs-3 form-group">
-					<label for="phone">Phone</label>
-					<form:input type="text" class="form-control" path="phone" />
+					<label for="phone">Detail</label>
+					<form:input type="text" class="form-control" path="detail" />
 				</div>
-				<div class="col-xs-3 form-group">
-					<label for="address">Address</label>
-					<form:input type="text" class="form-control" path="address" />
-				</div>
-				<div class="col-xs-3 form-group">
-					<label for="address">Opening Balance</label>
-					<form:input type="text" class="form-control" path="openingBalance" />
-				</div>
+
 			</div>
 			<div class="row">
 					<div class="col-xs-3"></div>

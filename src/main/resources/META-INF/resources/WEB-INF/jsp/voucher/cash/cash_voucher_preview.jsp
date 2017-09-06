@@ -55,7 +55,7 @@ h1 {
 					<label for="receiptId" class="col-sm-2 col-form-label">No</label>
 					<div class="col-sm-10">
 						<p>
-							<c:out value="${cash_voucher.cashVoucherId}" />
+							CP-<fmt:formatNumber minIntegerDigits="4" pattern="#" value="${cash_voucher.cashVoucherId}" />
 							&nbsp;
 						</p>
 						<br>
@@ -71,6 +71,17 @@ h1 {
 						</p>
 					</div>
 				</div>
+
+				<div class="col-xs-10 form-group row">
+					<label for="amount" class="col-sm-2 col-form-label">Account</label>
+					<div class="col-sm-4">
+						<p>
+							<c:out value="${cash_voucher.account.name}" />
+						    &nbsp;
+						</p>
+					</div>
+				</div>
+				
 
 				<div class="col-xs-10 form-group row">
 					<label for="amount" class="col-sm-2 col-form-label">Amount</label>

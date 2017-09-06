@@ -44,7 +44,7 @@ import com.rems.party.Party;
 
 		@NamedNativeQuery(name = "GeneralVoucher.calculateLedger", query = "select id,date,details,Dr,Cr,(@balance \\:= @balance + (Dr - Cr)) as Balance from \r\n"
 				+ "(SELECT @balance \\:= 0) AS dummy cross join\r\n" + "(\r\n"
-				+ "select concat('JV-',LPAD(general_voucher_id, 4, '0')) id,date,(case when cash_paid_by=5 then amount else '' end) as Dr,(case when cash_paid_to=5 then amount else '' end) as Cr,details from general_voucher where cash_paid_to in (1,?1) and cash_paid_by in (1,?1) and (date>=?2 or ?2 is null) and (date<=?3 or ?3 is null) \r\n"
+				+ "select concat('JV-',LPAD(general_voucher_id, 4, '0')) id,date,(case when cash_paid_to=1 then amount else '' end) as Dr,(case when cash_paid_by=1 then amount else '' end) as Cr,details from general_voucher where cash_paid_to in (1,?1) and cash_paid_by in (1,?1) and (date>=?2 or ?2 is null) and (date<=?3 or ?3 is null) \r\n"
 				+ "union all\r\n"
 				+ "select concat('CR-',LPAD(receipt_id,4,'0')),date,amount Dr,'' Cr,for_payment_of from receipt where party_id = ?1 and (date>=?2 or ?2 is null) and (date<=?3 or ?3 is null) \r\n"
 				+ "union all\r\n"

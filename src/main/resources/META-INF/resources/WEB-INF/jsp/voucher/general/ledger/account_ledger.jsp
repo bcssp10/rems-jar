@@ -39,24 +39,13 @@
 </head>
 <body>
 	<br />
-	<c:choose>
-		<c:when
-			test="${general_vouchers[0].cashPaidTo.partyId == mainPartyId}">
-			<c:set var="mainParty" value="${general_vouchers[0].cashPaidTo}" />
-			<c:set var="referenceParty" value="${general_vouchers[0].cashPaidBy}" />
-		</c:when>
-		<c:otherwise>
-			<c:set var="mainParty" value="${general_vouchers[0].cashPaidBy}" />
-			<c:set var="referenceParty" value="${general_vouchers[0].cashPaidTo}" />
-		</c:otherwise>
-	</c:choose>
 
 	<div class="container">
 
 		<div class="row">
 			<div class="col-md-12">
-				<h4>${mainParty.name}</h4>
-				${mainParty.address}<br /> ${mainParty.phone}<br /> <br />
+				<h4>M Rehan Enterprise</h4>
+				Lahore<br /> 11-22-33<br /> <br />
 				<div class="panel-heading" style="border: 2px solid #524a4a">
 					<h3 class="panel-title text-center">
 						<strong>Account Ledger</strong>
@@ -64,8 +53,8 @@
 				</div>
 				<br>
 				<div>
-					<strong>Account Name</strong> ${referenceParty.partyId} -
-					${referenceParty.name}
+					<strong>Account Name</strong> <fmt:formatNumber minIntegerDigits="2" pattern="#" value="${party.partyId}" />
+					${party.name}
 					<div class="pull-right">
 						<jsp:useBean id="now" class="java.util.Date" scope="request" />
 					    <strong>Printed Date:</strong>
@@ -92,34 +81,23 @@
 							<c:set var="total" value="${0}" />
 							<c:set var="totalDebit" value="${0}" />
 							<c:set var="totalCredit" value="${0}" />
-							<c:forEach var="voucher" items="${general_vouchers}">
+							<c:forEach var="row" items="${ledgerList}">
 								<tr>
-									<td>${voucher.generalVoucherId}</td>
+									<c:set var="totalDebit" value="${totalDebit + row[3]}" />
+									<c:set var="totalCredit" value="${totalCredit + row[4]}" />
+									<c:set var="total" value="${row[5]}" />
+									<td>${row[0]}</td>
 									<td><fmt:formatDate pattern="dd/MM/yyyy"
-											value="${voucher.date}" var="date" /> ${date}</td>
-									<td>${voucher.details}</td>
+											value="${row[1]}" var="date" /> ${date}</td>
+									<td>${row[2]}</td>
+									<td>${row[3]}</td>
+									<td>${row[4]}</td>
 									<c:choose>
-										<c:when test="${voucher.cashPaidTo.partyId ==  mainPartyId}">
-											<c:set var="total" value="${total + voucher.amount}" />
-											<c:set var="totalDebit"
-												value="${totalDebit + voucher.amount}" />
-											<td>${voucher.amount}</td>
-											<td></td>
+										<c:when test="${row[5] < 0}">
+											<td><fmt:formatNumber type="number" maxFractionDigits="5" value="${row[5] * -1}"/> Cr</td>
 										</c:when>
 										<c:otherwise>
-											<c:set var="total" value="${total - voucher.amount}" />
-											<c:set var="totalCredit"
-												value="${totalCredit + voucher.amount}" />
-											<td></td>
-											<td>${voucher.amount}</td>
-										</c:otherwise>
-									</c:choose>
-									<c:choose>
-										<c:when test="${total < 0}">
-											<td><fmt:formatNumber type="number" maxFractionDigits="5" value="${total * -1}"/> Cr</td>
-										</c:when>
-										<c:otherwise>
-											<td><fmt:formatNumber type="number" maxFractionDigits="5" value="${total}"/> Dr</td>
+											<td><fmt:formatNumber type="number" maxFractionDigits="5" value="${row[5]}"/> Dr</td>
 										</c:otherwise>
 									</c:choose>
 								</tr>
@@ -132,12 +110,12 @@
 								<td><strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${totalDebit}"/></strong></td>
 								<td><strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${totalCredit}"/></strong></td>
 								<c:choose>
-									<c:when test="${total < 0}">
-										<td><fmt:formatNumber type="number" maxFractionDigits="5" value="${total * -1}"/> Cr</td>
-									</c:when>
-									<c:otherwise>
-										<td><fmt:formatNumber type="number" maxFractionDigits="5" value="${total}"/> Dr</td>
-									</c:otherwise>
+										<c:when test="${total < 0}">
+											<td><strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${total}"/> Cr</strong></td>
+										</c:when>
+										<c:otherwise>
+											<td><strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${total}"/> Dr</strong></td>
+										</c:otherwise>
 								</c:choose>
 							</tr>
 						</tbody>

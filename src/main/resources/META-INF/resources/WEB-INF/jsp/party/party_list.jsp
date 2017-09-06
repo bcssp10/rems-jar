@@ -106,6 +106,7 @@
 						</td>
 						<td>AC-<fmt:formatNumber minIntegerDigits="4" pattern="#" value="${account.accountId}" /></td>
 						<td>${account.name}</td>
+						<td>${account.detail}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

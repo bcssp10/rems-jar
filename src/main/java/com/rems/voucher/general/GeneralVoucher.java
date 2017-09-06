@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -35,10 +36,21 @@ import com.rems.party.Party;
 		 * )
 		 */
 })
-@NamedNativeQuery(name = "GeneralVoucher.findTrialBalance", query = "SELECT (select name from party where cash_paid_to=party_id) Account,null as Debit,SUM(amount) Credit FROM `general_voucher` WHERE cash_paid_by=?1 and (date>=?2 or ?2 is null) and (date<=?3 or ?3 is null)"
-		+ " GROUP BY cash_paid_to" + " union all"
-		+ " SELECT (select name from party where cash_paid_by=party_id),SUM(amount),null FROM `general_voucher` WHERE cash_paid_to=?1 and (date>=?2 or ?2 is null) and (date<=?3 or ?3 is null)"
-		+ " GROUP BY cash_paid_by" + " order by Account,Debit desc")
+@NamedNativeQueries({
+		@NamedNativeQuery(name = "GeneralVoucher.findTrialBalance", query = "SELECT (select name from party where cash_paid_to=party_id) Account,null as Debit,SUM(amount) Credit FROM `general_voucher` WHERE cash_paid_by=?1 and (date>=?2 or ?2 is null) and (date<=?3 or ?3 is null)"
+				+ " GROUP BY cash_paid_to" + " union all"
+				+ " SELECT (select name from party where cash_paid_by=party_id),SUM(amount),null FROM `general_voucher` WHERE cash_paid_to=?1 and (date>=?2 or ?2 is null) and (date<=?3 or ?3 is null)"
+				+ " GROUP BY cash_paid_by" + " order by Account,Debit desc"),
+
+		@NamedNativeQuery(name = "GeneralVoucher.calculateLedger", query = "select id,date,details,Dr,Cr,(@balance \\:= @balance + (Dr - Cr)) as Balance from \r\n"
+				+ "(SELECT @balance \\:= 0) AS dummy cross join\r\n" + "(\r\n"
+				+ "select concat('JV-',LPAD(general_voucher_id, 4, '0')) id,date,(case when cash_paid_by=5 then amount else '' end) as Dr,(case when cash_paid_to=5 then amount else '' end) as Cr,details from general_voucher where cash_paid_to in (1,?1) and cash_paid_by in (1,?1) and (date>=?2 or ?2 is null) and (date<=?3 or ?3 is null) \r\n"
+				+ "union all\r\n"
+				+ "select concat('CR-',LPAD(receipt_id,4,'0')),date,amount Dr,'' Cr,for_payment_of from receipt where party_id = ?1 and (date>=?2 or ?2 is null) and (date<=?3 or ?3 is null) \r\n"
+				+ "union all\r\n"
+				+ "select concat('CP-',LPAD(cash_voucher_id,4,'0')),date,'' Dr,amount Cr,for_payment_of from cash_voucher where party_id = ?1 and (date>=?2 or ?2 is null) and (date<=?3 or ?3 is null) \r\n"
+				+ ") GL")
+})
 public class GeneralVoucher {
 
 	@Id

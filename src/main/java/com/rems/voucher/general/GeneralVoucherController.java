@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +31,7 @@ public class GeneralVoucherController {
 	
 	@Autowired
 	private AccountService accountService;
-
+	
 	// view all receipts
 	@RequestMapping
 	public String getAllGeneralVouchers(Model model) {
@@ -124,13 +126,12 @@ public class GeneralVoucherController {
 	@RequestMapping(value = "/ledger", method = RequestMethod.POST)
 	public String accountLedger(HttpServletRequest request , Model model){
 
-		int mainPartyId = ParamFactory.getInt(request, "mainPartyId");
-		int referencePartyId = ParamFactory.getInt(request, "referencePartyId");
+		int partyId = ParamFactory.getInt(request, "partyId");
 		Date from = ParamFactory.getDate(request, "from");
 		Date to = ParamFactory.getDate(request, "to");
 		
-		model.addAttribute("general_vouchers",generalVoucherService.findGeneralVouchersForLedger(mainPartyId,referencePartyId,from,to))
-			 .addAttribute("mainPartyId",mainPartyId);
+		model.addAttribute("ledgerList",generalVoucherService.calculateLedger(partyId,from,to))
+			 .addAttribute("party",partyService.getPartyById(partyId));
 		return "voucher/general/ledger/account_ledger";
 	}
 	// show trialbalance form

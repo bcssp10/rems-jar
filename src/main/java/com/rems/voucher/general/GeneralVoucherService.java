@@ -51,14 +51,20 @@ public class GeneralVoucherService {
 	public double calculateTotalAmount(List<GeneralVoucher> generalVouchers) {
 		return generalVouchers.stream().mapToDouble(r -> r.getAmount()).sum();
 	}
-	
+/*	
 	public List<GeneralVoucher> findGeneralVouchersForLedger(int mainPartyId, int referencePartyId, Date from, Date to) {
 		List<GeneralVoucher> generalVouchers = new ArrayList<>();
 		generalVoucherRepository.findGeneralVouchersForLedger(mainPartyId, referencePartyId, from, to).forEach(generalVouchers::add);
 		return generalVouchers;
 	}
-	
+*/	
 
+	public List<Object[]> calculateLedger(int partyId,Date from, Date to) {
+		List<Object[]> objects = new ArrayList<>();
+		generalVoucherRepository.calculateLedger(partyId, from, to).forEach(objects::add);
+		return objects;
+	}
+	
 	public List<Object[]> calculateTrialBalance(int mainPartyId,Date from, Date to) {
 		List<Object[]> objects = new ArrayList<>();
 		generalVoucherRepository.findTrialBalance(mainPartyId,from,to).forEach(objects::add);

@@ -10,8 +10,11 @@ p {
 	text-decoration: none;
 	text-align: center;
 	border-bottom: 1px solid black;
+	font-size: 110%;
 }
-
+label{
+font-size: 110%;
+}
 @page {
 	size: auto;
 	margin: 5mm;
@@ -150,4 +153,3 @@ h1 {
 </script>
 
 </html>
-

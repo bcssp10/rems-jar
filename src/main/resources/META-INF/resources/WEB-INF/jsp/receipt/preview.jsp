@@ -20,6 +20,12 @@ p {
 h1 {
 	text-align: center;
 }
+label{
+font-size: 110%;
+}
+p{
+font-size: 110%;
+}
 </style>
 
 </head>
@@ -180,4 +186,3 @@ h1 {
 </script>
 
 </html>
-

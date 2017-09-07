@@ -65,11 +65,12 @@ public class GeneralVoucherService {
 		return objects;
 	}
 	
-	public List<Object[]> calculateTrialBalance(int mainPartyId,Date from, Date to) {
+	public List<Object[]> calculateTrialBalance(Date from, Date to) {
 		List<Object[]> objects = new ArrayList<>();
-		generalVoucherRepository.findTrialBalance(mainPartyId,from,to).forEach(objects::add);
+		generalVoucherRepository.findTrialBalance(from,to).forEach(objects::add);
 		return objects;
 	}
+
 
 	/*
 	 * public void calculateAccountLedger(int mainPartyId, int referencePartyId,

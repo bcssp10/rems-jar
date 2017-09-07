@@ -23,14 +23,14 @@
 					<input id="to" name="to" type="date" class=" form-control" />
 				</div>
 
-				<div class="col-xs-3 form-group">
+			<%-- 	<div class="col-xs-3 form-group">
 					<label for="mainParty">Main Party</label> 
 					<select id="mainPartyId" name="mainPartyId" class="form-control">
 						<c:forEach var="party" items="${partyList}">
 							<option value="${party.partyId}">${party.name}</option>
 						</c:forEach>
 					</select>
-				</div>
+				</div> --%>
 			</div>
 			<div class="row">
 				<div class="col-xs-3"></div>

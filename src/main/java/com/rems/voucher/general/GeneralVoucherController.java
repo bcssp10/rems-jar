@@ -145,12 +145,9 @@ public class GeneralVoucherController {
 		@RequestMapping(value = "/trialbalance", method = RequestMethod.POST)
 		public String trialBalance(HttpServletRequest request , Model model){
 
-			int mainPartyId = ParamFactory.getInt(request, "mainPartyId");
 			Date from = ParamFactory.getDate(request, "from");
 			Date to = ParamFactory.getDate(request, "to");
-			model.addAttribute("data",generalVoucherService.calculateTrialBalance(mainPartyId,from,to));
-			model.addAttribute("mainPartyId",mainPartyId);
-			model.addAttribute("mainParty",partyService.getPartyById(mainPartyId));
+			model.addAttribute("data",generalVoucherService.calculateTrialBalance(from,to));
 			return "voucher/general/trial_balance/trial_balance";
 		}
 

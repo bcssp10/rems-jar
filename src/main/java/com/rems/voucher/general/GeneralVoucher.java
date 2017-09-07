@@ -37,10 +37,18 @@ import com.rems.party.Party;
 		 */
 })
 @NamedNativeQueries({
-		@NamedNativeQuery(name = "GeneralVoucher.findTrialBalance", query = "SELECT (select name from party where cash_paid_to=party_id) Account,null as Debit,SUM(amount) Credit FROM `general_voucher` WHERE cash_paid_by=?1 and (date>=?2 or ?2 is null) and (date<=?3 or ?3 is null)"
-				+ " GROUP BY cash_paid_to" + " union all"
-				+ " SELECT (select name from party where cash_paid_by=party_id),SUM(amount),null FROM `general_voucher` WHERE cash_paid_to=?1 and (date>=?2 or ?2 is null) and (date<=?3 or ?3 is null)"
-				+ " GROUP BY cash_paid_by" + " order by Account,Debit desc"),
+		@NamedNativeQuery(name = "GeneralVoucher.findTrialBalance", query = "SELECT concat('P-',LPAD(cash_paid_to, 2, '0')) id,(select name from party where cash_paid_to=party_id) Account,null as Debit,SUM(amount) Credit FROM `general_voucher` where cash_paid_by=1 and (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null) \r\n" + 
+				"GROUP BY cash_paid_to\r\n" + 
+				"union all\r\n" + 
+				"SELECT concat('P-',LPAD(cash_paid_by, 2, '0')),(select name from party where cash_paid_by=party_id) Account,SUM(amount) Debit,null as Credit FROM `general_voucher` where cash_paid_to=1 and (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null) \r\n" + 
+				"GROUP BY cash_paid_by\r\n" + 
+				"union all\r\n" + 
+				"SELECT concat('AC-',LPAD(g.account_id, 4, '0')),(select name from account a where a.account_id=g.account_id) Account,null as Debit,SUM(amount) Credit FROM `general_voucher` g where cash_paid_by=1 and (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null) \r\n" + 
+				"GROUP BY account_id\r\n" + 
+				"union all\r\n" + 
+				"SELECT concat('AC-',LPAD(g.account_id, 4, '0')),(select name from account a where a.account_id=g.account_id) Account,SUM(amount) Debit,null as Credit FROM `general_voucher` g where cash_paid_to=1 and (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null) \r\n" + 
+				"GROUP BY account_id \r\n" + 
+				"order by Account,Debit desc"),
 
 		@NamedNativeQuery(name = "GeneralVoucher.calculateLedger", query = "select id,date,details,Dr,Cr,(@balance \\:= @balance + (Dr - Cr)) as Balance from \r\n"
 				+ "(SELECT @balance \\:= 0) AS dummy cross join\r\n" + "(\r\n"

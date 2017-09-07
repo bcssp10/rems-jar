@@ -23,9 +23,7 @@ public interface GeneralVoucherRepository extends CrudRepository<GeneralVoucher,
 
 	public Iterable<Object[]> calculateLedger(int partyId, Date from, Date to);
 
-	//public Iterable<Object[]> calculateLedger(int partyId);
-	
-	public Iterable<Object[]> findTrialBalance(int mainPartyId, Date from, Date to);
+	public Iterable<Object[]> findTrialBalance(Date from, Date to);
 	
 
 	/*

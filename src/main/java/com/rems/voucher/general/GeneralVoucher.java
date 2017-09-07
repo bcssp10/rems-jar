@@ -38,7 +38,7 @@ import com.rems.party.Party;
 })
 @NamedNativeQueries({
 		@NamedNativeQuery(name = "GeneralVoucher.findTrialBalance",
-				query = "select concat('P-',LPAD(party_Id, 2, '0')) id,Account, null as debit,sum(credit) as credit from ( \r\n" + 
+				query = /*"select concat('P-',LPAD(party_Id, 2, '0')) id,Account, null as debit,sum(credit) as credit from ( \r\n" + 
 						"select cash_paid_to as party_Id,(select name from party where cash_paid_to=party_id) Account,SUM(amount) credit FROM `general_voucher` where cash_paid_by=1 and (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)  \r\n" + 
 						"group by cash_paid_to\r\n" + 
 						"union all\r\n" + 
@@ -55,8 +55,8 @@ import com.rems.party.Party;
 						"where party_Id !=1 and (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null) \r\n" + 
 						"group by party_Id\r\n" + 
 						") as t2 group by party_id\r\n" + 
-						"union all\r\n" + 
-						"select concat('AC-',LPAD(account_id, 4, '0')),Account,null, sum(credit) from (\r\n" + 
+						"union all\r\n" +*/ 
+						"select concat('AC-',LPAD(account_id, 4, '0')) id,Account,null as debit, sum(credit) as credit from (\r\n" + 
 						"SELECT account_id,(select name from account a where a.account_id=g.account_id) Account,SUM(amount) credit FROM `general_voucher` g where cash_paid_by=1 and (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null) \r\n" + 
 						"GROUP BY account_id\r\n" + 
 						"union all\r\n" + 

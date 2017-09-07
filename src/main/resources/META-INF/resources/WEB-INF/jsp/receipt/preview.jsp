@@ -31,7 +31,9 @@ font-size: 110%;
 </head>
 
 <body>
-	<h1>M Rehan Enterprises</h1>
+	<h4>M Rehan Enterprises</h4>
+	            <h5>G-47, AL-Latif Center, Main Boulevard Gulberg-3 Lahore</h5>
+	            <h5>0300-9676164/0300-8676164</h5>
 	<br>
 	<br>
 	<div class="container">

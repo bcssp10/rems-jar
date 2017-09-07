@@ -44,8 +44,10 @@
 
 		<div class="row">
 			<div class="col-md-12">
-				<h4>M Rehan Enterprise</h4>
-				Lahore<br /> 11-22-33<br /> <br />
+				<h4>M Rehan Enterprises</h4>
+	            <h5>G-47, AL-Latif Center, Main Boulevard Gulberg-3 Lahore</h5>
+	            <h5>0300-9676164/0300-8676164</h5>
+	<br /> <br />
 				<div class="panel-heading" style="border: 2px solid #524a4a">
 					<h3 class="panel-title text-center">
 						<strong>Profit / Loss</strong>
@@ -55,7 +57,7 @@
 				<div>
 					<div class="pull-left">
 					<strong>Account Name</strong>
-					<br />AC-<fmt:formatNumber minIntegerDigits="4" pattern="#" value="${account.accountId}" />
+					<br />AC-<fmt:formatNumber minIntegerDigits="4" pattern="#" value="${account.accountId}"/>
 					${account.name}
 					</div>
 					<div class="pull-right">

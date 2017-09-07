@@ -38,13 +38,14 @@
 
 </head>
 <body>
-	<br />
 	<div class="container">
 
 		<div class="row">
 			<div class="col-md-12">
 	 		<h4>M Rehan Enterprises</h4>
-				Lahore<br /> 11-22-33<br /> <br />
+	            <h5>G-47, AL-Latif Center, Main Boulevard Gulberg-3 Lahore</h5>
+	            <h5>0300-9676164/0300-8676164</h5>
+	        <br/>
 				<div class="panel-heading" style="border: 2px solid #524a4a">
 					<h3 class="panel-title text-center">
 						<strong>Trial Balance</strong>
@@ -66,9 +67,9 @@
 						<thead style="background-color: #ffffff;">
 							<tr>
 								<th>ID</th>
-								<th>Account</th>
-								<th>Income</th>
-								<th>Expense</th>
+								<th>Account Title</th>
+								<th>Debit/Income</th>
+								<th>Credit/Expense</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -92,7 +93,7 @@
 								<td><strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${totalCredit}"/></strong></td>
 							</tr>
 							<tr>
-								<td><strong>Net Income: </strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${totalDebit}"/> - 
+								<td><strong>Difference: </strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${totalDebit}"/> - 
 								<fmt:formatNumber type="number" maxFractionDigits="5" value="${totalCredit}"/> = 
 								<strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${totalDebit - totalCredit}"/></strong></td>
 								<td></td>

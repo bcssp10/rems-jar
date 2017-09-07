@@ -44,8 +44,10 @@
 
 		<div class="row">
 			<div class="col-md-12">
-				<h4>M Rehan Enterprise</h4>
-				Lahore<br /> 11-22-33<br /> <br />
+				<h4>M Rehan Enterprises</h4>
+	            <h5>G-47, AL-Latif Center, Main Boulevard Gulberg-3 Lahore</h5>
+	            <h5>0300-9676164/0300-8676164</h5>
+				<br/><br/>
 				<div class="panel-heading" style="border: 2px solid #524a4a">
 					<h3 class="panel-title text-center">
 						<strong>Account Ledger</strong>
@@ -53,7 +55,7 @@
 				</div>
 				<br>
 				<div>
-					<strong>Account Name</strong> <fmt:formatNumber minIntegerDigits="2" pattern="#" value="${party.partyId}" />
+					<strong>Account Name-</strong> <fmt:formatNumber minIntegerDigits="2" pattern="#" value="${party.partyId}" />
 					${party.name}
 					<div class="pull-right">
 						<jsp:useBean id="now" class="java.util.Date" scope="request" />

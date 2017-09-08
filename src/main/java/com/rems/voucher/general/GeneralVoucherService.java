@@ -52,19 +52,51 @@ public class GeneralVoucherService {
 		return generalVouchers.stream().mapToDouble(r -> r.getAmount()).sum();
 	}
 	
-	public List<GeneralVoucher> findGeneralVouchersForLedger(int mainPartyId, int referencePartyId, Date from, Date to) {
-		List<GeneralVoucher> generalVouchers = new ArrayList<>();
-		generalVoucherRepository.findGeneralVouchersForLedger(mainPartyId, referencePartyId, from, to).forEach(generalVouchers::add);
-		return generalVouchers;
+	public List<Object[]> findGeneralVouchersForLedger(int partyId, Date from, Date to) {
+		
+		List<Object[]> data = new ArrayList<>();
+		
+		if (partyId == 1) 
+			generalVoucherRepository.findGLforCash(from,to).forEach(data::add);	
+		else 
+			generalVoucherRepository.findGL(partyId,from,to).forEach(data::add);
+
+		return data;
 	}
 	
 
-	public List<Object[]> calculateTrialBalance(int mainPartyId,Date from, Date to) {
+	public List<Object[]> calculateTrialBalance(Date from, Date to) {
 		List<Object[]> objects = new ArrayList<>();
-		generalVoucherRepository.findTrialBalance(mainPartyId,from,to).forEach(objects::add);
+		generalVoucherRepository.findTrialBalance(from,to).forEach(objects::add);
+		
+		List<Object[]> cash = new ArrayList<>(1); 
+		generalVoucherRepository.findTrialBalanceforCash(from, to).forEach(cash::add);
+		
+		objects.add(objects.size(),getCashRow(cash.get(0)));
+			
 		return objects;
 	}
-
+	
+	private Object[] getCashRow (Object[] Data) {
+		
+		Object[] cashRow = new Object[4];
+		cashRow[0] = "P-01";
+		cashRow[1] = Data[0];
+		
+		if((double)Data[1] <0)
+			cashRow[2] = (double)Data[1] * -1;
+		else
+			cashRow[3] = Data[1];
+		
+		return cashRow;
+	}
+	
+	public List<Object[]> findProfitLoss(int purchaseAccountId, int saleAccountId, Date from, Date to){
+		List<Object[]> profitLoss = new ArrayList<>(); 
+		generalVoucherRepository.findProfitLoss(purchaseAccountId,saleAccountId,from,to).forEach(profitLoss::add);
+		return profitLoss;
+	}
+	
 	/*
 	 * public void calculateAccountLedger(int mainPartyId, int referencePartyId,
 	 * Date from, Date to) { List<GeneralVoucher> generalVouchers = new

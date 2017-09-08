@@ -37,7 +37,7 @@ public class ReceiptController {
 
 		model.addAttribute("receipt", receiptService.getReceiptById(id))
 			 .addAttribute("paymentTypes",PaymentType.findAll())
-			 .addAttribute("partyList",partyService.getAllParties());
+			 .addAttribute("partyList",partyService.getAllPartiesWithoutCashAccount());
 
 		return "receipt/form";
 	}
@@ -48,7 +48,7 @@ public class ReceiptController {
 
 		model.addAttribute("receipt", new Receipt())
 			 .addAttribute("paymentTypes", PaymentType.findAll())
-			 .addAttribute("partyList",partyService.getAllParties());
+			 .addAttribute("partyList",partyService.getAllPartiesWithoutCashAccount());
 
 		return "receipt/form";
 	}

@@ -43,8 +43,8 @@
 
 		<div class="row">
 			<div class="col-md-12">
-	 		<h4>${mainParty.name}</h4>
-				${mainParty.address}<br /> ${mainParty.phone}<br /> <br />
+	 		<h4>M Rehan Enterprise</h4>
+				Lahore<br /> 11-22-33<br /> <br />
 				<div class="panel-heading" style="border: 2px solid #524a4a">
 					<h3 class="panel-title text-center">
 						<strong>Trial Balance</strong>
@@ -65,7 +65,8 @@
 					<table class="table nowrap table table-striped" style="border: 0">
 						<thead style="background-color: #ffffff;">
 							<tr>
-								<th>Account</th>
+								<th>ID</th>
+								<th>Account Title</th>
 								<th>Debit</th>
 								<th>Credit</th>
 							</tr>
@@ -76,14 +77,16 @@
 							<c:forEach var="row" items="${data}">
 								<tr>
 									<td>${row[0]}</td>
-									<td><fmt:formatNumber type="number" maxFractionDigits="5" value="${row[1]}"/></td>
+									<td>${row[1]}</td>
 									<td><fmt:formatNumber type="number" maxFractionDigits="5" value="${row[2]}"/></td>
+									<td><fmt:formatNumber type="number" maxFractionDigits="5" value="${row[3]}"/></td>
 								</tr>
-								<c:set var="totalDebit"	value="${totalDebit + row[1]}" />
-								<c:set var="totalCredit" value="${totalCredit + row[2]}" />
+								<c:set var="totalDebit"	value="${totalDebit + row[2]}" />
+								<c:set var="totalCredit" value="${totalCredit + row[3]}" />
 							</c:forEach>
 
 							<tr>
+								<td></td>
 								<td><strong>Total:</strong></td>
 								<td><strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${totalDebit}"/></strong></td>
 								<td><strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${totalCredit}"/></strong></td>
@@ -92,6 +95,7 @@
 								<td><strong>Net Income: </strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${totalDebit}"/> - 
 								<fmt:formatNumber type="number" maxFractionDigits="5" value="${totalCredit}"/> = 
 								<strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${totalDebit - totalCredit}"/></strong></td>
+								<td></td>
 								<td></td>
 								<td></td>
 							</tr>  

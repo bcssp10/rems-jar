@@ -67,7 +67,10 @@ public class PartyController {
 	// delete party
 	@RequestMapping(value = "/delete/{id}")
 	public String deleteParty(Model model, @PathVariable int id) {
-		partyService.deleteParty(id);
+		
+		if(id != 1)
+			partyService.deleteParty(id);
+		
 		return "redirect:/party";
 	}
 

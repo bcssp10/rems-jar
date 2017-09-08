@@ -13,6 +13,12 @@ public class PartyService {
 	@Autowired
 	private PartyRepository partyRepository;
 
+	public List<Party> getAllPartiesWithoutCashAccount() {
+		List<Party> parties = new ArrayList<>();
+		partyRepository.getAllPartiesWithoutCashAccount().forEach(parties::add);
+		return parties;
+	}
+	
 	public List<Party> getAllParties() {
 		List<Party> parties = new ArrayList<>();
 		partyRepository.findAll().forEach(parties::add);

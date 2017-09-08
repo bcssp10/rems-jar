@@ -10,7 +10,7 @@
 		<h1>
 			M Rehan Enterprises<br>
 		</h1>
-		<form class=".form-horizontal" action="/voucher/general/ledger" method="post">
+		<form class=".form-horizontal" action="/voucher/general/profitloss" method="post">
 
 			<div class="col-xs-12">
 				<div class="col-xs-3 form-group">
@@ -24,14 +24,22 @@
 				</div>
 
 				<div class="col-xs-3 form-group">
-					<label for="party">Party</label> 
-					<select id="partyId" name="partyId" class="form-control">
+					<label for="party">Purchase Account</label> 
+					<select id="purchasePartyId" name="purchasePartyId" class="form-control">
 						<c:forEach var="party" items="${partyList}">
 							<option value="${party.partyId}">${party.name}</option>
 						</c:forEach>
 					</select>
 				</div>
 				
+				<div class="col-xs-3 form-group">
+					<label for="party">Sale Account</label> 
+					<select id="salePartyId" name="salePartyId" class="form-control">
+						<c:forEach var="party" items="${partyList}">
+							<option value="${party.partyId}">${party.name}</option>
+						</c:forEach>
+					</select>
+				</div>
 			</div>
 			<div class="row">
 				<div class="col-xs-3"></div>

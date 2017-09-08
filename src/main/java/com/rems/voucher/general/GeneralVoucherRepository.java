@@ -19,10 +19,17 @@ public interface GeneralVoucherRepository extends CrudRepository<GeneralVoucher,
 	
 	public Iterable<GeneralVoucher> findAllGeneralVouchersByCashPaidBy(@Param("cashPaidBy")int cashPaidBy);
 	
-	public Iterable<GeneralVoucher> findGeneralVouchersForLedger(int mainPartyId, int referencePartyId, Date from, Date to);
+	public Iterable<GeneralVoucher> findGeneralVouchersForLedger(int mainPartyId, Date from, Date to);
 	
-	public Iterable<Object[]> findTrialBalance(int mainPartyId, Date from, Date to);
+	public Iterable<Object[]> findGLforCash(Date from, Date to);
+
+	public Iterable<Object[]> findGL(int partyId, Date from, Date to);
+
+	public Iterable<Object[]> findTrialBalance(Date from, Date to);
 	
+	public Iterable<Object[]> findTrialBalanceforCash(Date from, Date to);
+	
+	public Iterable<Object[]> findProfitLoss(int purchaseAccountId, int saleAccountId, Date from, Date to);
 
 	/*
 	 * Custom Query Example

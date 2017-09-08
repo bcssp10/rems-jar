@@ -38,7 +38,7 @@ public class GeneralVoucherController {
 	public String getGeneralVoucher(@PathVariable int id, Model model) {
 
 		model.addAttribute("general_voucher", generalVoucherService.getGeneralVoucherById(id)).addAttribute("partyList",
-				partyService.getAllParties());
+				partyService.getAllPartiesWithoutCashAccount());
 
 		return "voucher/general/general_voucher_form";
 	}
@@ -48,7 +48,7 @@ public class GeneralVoucherController {
 	public String generalVoucherForm(Model model) {
 
 		model.addAttribute("general_voucher", new GeneralVoucher()).addAttribute("partyList",
-				partyService.getAllParties());
+				partyService.getAllPartiesWithoutCashAccount());
 
 		return "voucher/general/general_voucher_form";
 	}
@@ -118,13 +118,12 @@ public class GeneralVoucherController {
 	@RequestMapping(value = "/ledger", method = RequestMethod.POST)
 	public String accountLedger(HttpServletRequest request , Model model){
 
-		int mainPartyId = ParamFactory.getInt(request, "mainPartyId");
-		int referencePartyId = ParamFactory.getInt(request, "referencePartyId");
+		int partyId = ParamFactory.getInt(request, "partyId");
 		Date from = ParamFactory.getDate(request, "from");
 		Date to = ParamFactory.getDate(request, "to");
 		
-		model.addAttribute("general_vouchers",generalVoucherService.findGeneralVouchersForLedger(mainPartyId,referencePartyId,from,to))
-			 .addAttribute("mainPartyId",mainPartyId);
+		model.addAttribute("data",generalVoucherService.findGeneralVouchersForLedger(partyId,from,to))
+			 .addAttribute("party",partyService.getPartyById(partyId));
 		return "voucher/general/ledger/account_ledger";
 	}
 	// show trialbalance form
@@ -137,14 +136,32 @@ public class GeneralVoucherController {
 		// show trialbalance
 		@RequestMapping(value = "/trialbalance", method = RequestMethod.POST)
 		public String trialBalance(HttpServletRequest request , Model model){
-
-			int mainPartyId = ParamFactory.getInt(request, "mainPartyId");
 			Date from = ParamFactory.getDate(request, "from");
 			Date to = ParamFactory.getDate(request, "to");
-			model.addAttribute("data",generalVoucherService.calculateTrialBalance(mainPartyId,from,to));
-			model.addAttribute("mainPartyId",mainPartyId);
-			model.addAttribute("mainParty",partyService.getPartyById(mainPartyId));
+			model.addAttribute("data",generalVoucherService.calculateTrialBalance(from,to));
 			return "voucher/general/trial_balance/trial_balance";
 		}
+		
+		// show Profit/Loss form
+		@RequestMapping(value = "/profitloss", method = RequestMethod.GET)
+		public String profitLossForm(Model model) {
+			model.addAttribute("partyList", partyService.getAllPartiesWithoutCashAccount());
+			return "voucher/general/profit_loss/profit_loss_form";
+		}
+
+		// show Profit/Loss
+		@RequestMapping(value = "/profitloss", method = RequestMethod.POST)
+		public String profitLoss(HttpServletRequest request , Model model){
+			
+			int purchasePartyId = ParamFactory.getInt(request, "purchasePartyId");
+			int salePartyId = ParamFactory.getInt(request, "salePartyId");
+			Date from = ParamFactory.getDate(request, "from");
+			Date to = ParamFactory.getDate(request, "to");
+			
+			model.addAttribute("data",generalVoucherService.findProfitLoss(purchasePartyId,salePartyId,from,to));
+			return "voucher/general/profit_loss/profit_loss";
+		}
+		
+		
 
 }

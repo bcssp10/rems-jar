@@ -37,7 +37,7 @@ public class CashVoucherController {
 
 		model.addAttribute("cash_voucher", cashVoucherService.getCashVoucherById(id))
 			 .addAttribute("paymentTypes",PaymentType.findAll())
-			 .addAttribute("partyList",partyService.getAllParties());
+			 .addAttribute("partyList",partyService.getAllPartiesWithoutCashAccount());
 
 		return "voucher/cash/cash_voucher_form";
 	}
@@ -48,7 +48,7 @@ public class CashVoucherController {
 
 		model.addAttribute("cash_voucher", new CashVoucher())
 			 .addAttribute("paymentTypes", PaymentType.findAll())
-			 .addAttribute("partyList",partyService.getAllParties());
+			 .addAttribute("partyList",partyService.getAllPartiesWithoutCashAccount());
 
 		return "voucher/cash/cash_voucher_form";
 	}

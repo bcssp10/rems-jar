@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -34,10 +35,46 @@ import com.rems.party.Party;
 		 * )
 		 */
 })
-@NamedNativeQuery(name = "GeneralVoucher.findTrialBalance", query = "SELECT (select name from party where cash_paid_to=party_id) Account,null as Debit,SUM(amount) Credit FROM `general_voucher` WHERE cash_paid_by=?1 and (date>=?2 or ?2 is null) and (date<=?3 or ?3 is null)"
-		+ " GROUP BY cash_paid_to" + " union all"
-		+ " SELECT (select name from party where cash_paid_by=party_id),SUM(amount),null FROM `general_voucher` WHERE cash_paid_to=?1 and (date>=?2 or ?2 is null) and (date<=?3 or ?3 is null)"
-		+ " GROUP BY cash_paid_by" + " order by Account,Debit desc")
+@NamedNativeQueries({
+		
+		// find Trail Balance
+		@NamedNativeQuery(name = "GeneralVoucher.findTrialBalance", query = "select id,name,(case when coalesce(sum(debit),0) - coalesce(sum(credit),0) >=0 then coalesce(sum(debit),0) - coalesce(sum(credit),0) else null end) debit,(case when coalesce(sum(debit),0) - coalesce(sum(credit),0) <0 then (coalesce(sum(debit),0) - coalesce(sum(credit),0))*-1 else null end) credit from \r\n" + 
+				"(\r\n" + 
+				"select party_id,concat('P-',LPAD(party_id, 2, '0')) id,(select name from party p where p.party_id = c.party_id) name, sum(amount) as debit, null as credit from cash_voucher c where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)\r\n" + 
+				"group by party_id\r\n" + 
+				"union all\r\n" + 
+				"select party_id,concat('P-',LPAD(party_id, 2, '0')), (select name from party p where p.party_id = r.party_id), null ,sum(amount) from receipt r where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)\r\n" + 
+				"group by party_id\r\n" + 
+				"union all \r\n" + 
+				"select cash_paid_to,concat('P-',LPAD(cash_paid_to, 2, '0')), (select name from party p where p.party_id = g.cash_paid_to),sum(amount), null from general_voucher g where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)\r\n" + 
+				"group by cash_paid_to\r\n" + 
+				"union all\r\n" + 
+				"select cash_paid_by,concat('P-',LPAD(cash_paid_by, 2, '0')) id,(select name from party p where p.party_id = g.cash_paid_by),null,sum(amount) from general_voucher g where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)\r\n" + 
+				"group by cash_paid_by\r\n" + 
+				") t1\r\n" + 
+				"group by party_id"),
+		
+		@NamedNativeQuery(name = "GeneralVoucher.findTrialBalanceforCash", query = "select (select name from party where party_id = 1) name,(select sum(amount) from cash_voucher where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)) - (select sum(amount) from receipt where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)) amount from dual"),
+		
+		// find General Ledger 
+		@NamedNativeQuery(name = "GeneralVoucher.findGLforCash", query = "select concat('CR-',LPAD(receipt_id,4,'0')) as id,date,for_payment_of,amount as debit,null as credit from receipt where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null) \r\n"
+				+ "union all\r\n"
+				+ "select concat('CP-',LPAD(cash_voucher_id,4,'0')),date,for_payment_of,null,amount as credit from cash_voucher where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)"),
+		
+		@NamedNativeQuery(name = "GeneralVoucher.findGL", query = "select concat('CR-',LPAD(receipt_id,4,'0')) as id,date,for_payment_of,null as debit,amount as credit from receipt where party_id=?1 and (date>=?2 or ?2 is null) and (date<=?3 or ?3 is null) \r\n"
+				+ "union all\r\n"
+				+ "select concat('CP-',LPAD(cash_voucher_id,4,'0')),date,for_payment_of,amount,null from cash_voucher where party_id=?1 and (date>=?2 or ?2 is null) and (date<=?3 or ?3 is null)\r\n"
+				+ "union all\r\n"
+				+ "select concat('JV-',LPAD(general_voucher_id, 4, '0')),date,details,(case when cash_paid_to = ?1 then amount else null end) as debit, (case when cash_paid_by = ?1 then amount else null end) as credit from general_voucher\r\n"
+				+ "where (cash_paid_to = ?1 OR cash_paid_by = ?1) and (date>=?2 or ?2 is null) and (date<=?3 or ?3 is null)"),
+		
+		// find Profit Loss
+		@NamedNativeQuery(name = "GeneralVoucher.findProfitLoss", query = 
+				"select concat('JV-',LPAD(general_voucher_id, 4, '0')) id,date,details,null as debit,amount as credit from general_voucher where cash_paid_by = ?1 and (date>=?3 or ?3 is null) and (date<=?4 or ?4 is null)\r\n" + 
+				"union all\r\n" + 
+				"select concat('JV-',LPAD(general_voucher_id, 4, '0')),date,details,amount,null from general_voucher where cash_paid_to = ?2 and (date>=?3 or ?3 is null) and (date<=?4 or ?4 is null)")
+})
+
 public class GeneralVoucher {
 
 	@Id

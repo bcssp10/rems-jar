@@ -43,24 +43,21 @@
 
 		<div class="row">
 			<div class="col-md-12">
-				<h4>M Rehan Enterprise</h4>
-				LHR<br /> 11-22-33<br /> <br />
+	 		<h4>M Rehan Enterprise</h4>
+				Lahore<br /> 11-22-33<br /> <br />
 				<div class="panel-heading" style="border: 2px solid #524a4a">
 					<h3 class="panel-title text-center">
-						<strong>Account Ledger</strong>
+						<strong>Profit / Loss</strong>
 					</h3>
 				</div>
 				<br>
-				<div>
-					<strong>Account Name</strong> ${party.partyId} -
-					${party.name}
-					<div class="pull-right">
-						<jsp:useBean id="now" class="java.util.Date" scope="request" />
-					    <strong>Printed Date:</strong>
-						<fmt:formatDate type="date" pattern="dd/MM/yyyy" value="${now}" />
-						<br /> <strong>Printed Time:</strong>
-						<fmt:formatDate type="time" value="${now}" />
-					</div>
+				<div class="pull-right">
+					<jsp:useBean id="now" class="java.util.Date" scope="request" />
+				    <strong>Printed Date:</strong>
+					<fmt:formatDate type="date" pattern="dd/MM/yyyy" value="${now}" />
+					<br /> <strong>Printed Time:</strong>
+					<fmt:formatDate type="time" value="${now}" />
+
 				</div>
 				<br>
 				<br>
@@ -70,39 +67,24 @@
 							<tr>
 								<th>ID</th>
 								<th>Date</th>
-								<th>Detail</th>
+								<th>Account Title</th>
 								<th>Debit</th>
 								<th>Credit</th>
-								<th>Balance</th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:set var="total" value="${0}" />
 							<c:set var="totalDebit" value="${0}" />
 							<c:set var="totalCredit" value="${0}" />
 							<c:forEach var="row" items="${data}">
 								<tr>
 									<td>${row[0]}</td>
-									<td><fmt:formatDate pattern="dd/MM/yyyy"
-											value="${row[1]}" var="date" /> ${date}</td>
+									<td>${row[1]}</td>
 									<td>${row[2]}</td>
-									
-											<c:set var="totalDebit"	 value="${totalDebit + row[3]}" />
-											<c:set var="totalCredit" value="${totalCredit + row[4]}" />
-											<c:set var="total" value="${totalDebit - totalCredit}" />
-
-											<td>${row[3]}</td>
-											<td>${row[4]}</td>
-									
-									<c:choose>
-										<c:when test="${total < 0}">
-											<td><fmt:formatNumber type="number" maxFractionDigits="5" value="${total * -1}"/> Cr</td>
-										</c:when>
-										<c:otherwise>
-											<td><fmt:formatNumber type="number" maxFractionDigits="5" value="${total}"/> Dr</td>
-										</c:otherwise>
-									</c:choose>
+									<td><fmt:formatNumber type="number" maxFractionDigits="5" value="${row[3]}"/></td>
+									<td><fmt:formatNumber type="number" maxFractionDigits="5" value="${row[4]}"/></td>
 								</tr>
+								<c:set var="totalDebit"	value="${totalDebit + row[3]}" />
+								<c:set var="totalCredit" value="${totalCredit + row[4]}" />
 							</c:forEach>
 
 							<tr>
@@ -111,20 +93,21 @@
 								<td><strong>Total:</strong></td>
 								<td><strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${totalDebit}"/></strong></td>
 								<td><strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${totalCredit}"/></strong></td>
-								<c:choose>
-									<c:when test="${total < 0}">
-										<td><fmt:formatNumber type="number" maxFractionDigits="5" value="${total * -1}"/> Cr</td>
-									</c:when>
-									<c:otherwise>
-										<td><fmt:formatNumber type="number" maxFractionDigits="5" value="${total}"/> Dr</td>
-									</c:otherwise>
-								</c:choose>
 							</tr>
+							<tr>
+								<td><strong>Net Income: </strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${totalDebit}"/> - 
+								<fmt:formatNumber type="number" maxFractionDigits="5" value="${totalCredit}"/> = 
+								<strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${totalDebit - totalCredit}"/></strong></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>  
 						</tbody>
 					</table>
 					<button id="printpagebutton" type="button"
 					class="btn btn-primary btn-sx pull-right" onclick="myFunction()">Print
-					Ledger</button>
+					Trial Balance</button>
 				</div>
 			</div>
 		</div>

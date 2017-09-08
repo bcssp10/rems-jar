@@ -52,9 +52,9 @@ import com.rems.party.Party;
 				"select cash_paid_by,concat('P-',LPAD(cash_paid_by, 2, '0')) id,(select name from party p where p.party_id = g.cash_paid_by),null,sum(amount) from general_voucher g where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)\r\n" + 
 				"group by cash_paid_by\r\n" +
 				"union all\r\n" + 
-				"select party_id,null,null,debitOB,creditOB from party where party_id != 1"+
-				") t1 where t1.id is not null \r\n" + 
-				"group by party_id"),
+				"select party_id,concat('P-',LPAD(party_id, 2, '0')),name,debitOB,creditOB from party where party_id != 1  and ( debitOB !=0 or creditOB != 0 )"+
+				") t1 \r\n" + 
+				"group by t1.party_id"),
 		
 		@NamedNativeQuery(name = "GeneralVoucher.findTrialBalanceforCash", query = "select (select name from party where party_id = 1) name,coalesce((select sum(amount) from cash_voucher where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)) - (select sum(amount) from receipt where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)),0) amount from dual"),
 		

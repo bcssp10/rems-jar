@@ -50,18 +50,23 @@ import com.rems.party.Party;
 				"group by cash_paid_to\r\n" + 
 				"union all\r\n" + 
 				"select cash_paid_by,concat('P-',LPAD(cash_paid_by, 2, '0')) id,(select name from party p where p.party_id = g.cash_paid_by),null,sum(amount) from general_voucher g where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)\r\n" + 
-				"group by cash_paid_by\r\n" + 
-				") t1\r\n" + 
+				"group by cash_paid_by\r\n" +
+				"union all\r\n" + 
+				"select party_id,null,null,debitOB,creditOB from party where party_id != 1"+
+				") t1 where t1.id is not null \r\n" + 
 				"group by party_id"),
 		
-		@NamedNativeQuery(name = "GeneralVoucher.findTrialBalanceforCash", query = "select (select name from party where party_id = 1) name,(select sum(amount) from cash_voucher where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)) - (select sum(amount) from receipt where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)) amount from dual"),
+		@NamedNativeQuery(name = "GeneralVoucher.findTrialBalanceforCash", query = "select (select name from party where party_id = 1) name,coalesce((select sum(amount) from cash_voucher where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)) - (select sum(amount) from receipt where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)),0) amount from dual"),
 		
 		// find General Ledger 
 		@NamedNativeQuery(name = "GeneralVoucher.findGLforCash", query = "select concat('CR-',LPAD(receipt_id,4,'0')) as id,date,for_payment_of,amount as debit,null as credit from receipt where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null) \r\n"
 				+ "union all\r\n"
 				+ "select concat('CP-',LPAD(cash_voucher_id,4,'0')),date,for_payment_of,null,amount as credit from cash_voucher where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)"),
 		
-		@NamedNativeQuery(name = "GeneralVoucher.findGL", query = "select concat('CR-',LPAD(receipt_id,4,'0')) as id,date,for_payment_of,null as debit,amount as credit from receipt where party_id=?1 and (date>=?2 or ?2 is null) and (date<=?3 or ?3 is null) \r\n"
+		@NamedNativeQuery(name = "GeneralVoucher.findGL", query = 
+				  "select null as id,null as date,'Opening Balance' as detail,(case when debitOB = 0 then null else debitOB end)  as debit,(case when creditOB = 0 then null else creditOB end) as credit from party where party_id = ?1\r\n" 
+				+ "union all\r\n" 
+				+ "select concat('CR-',LPAD(receipt_id,4,'0')) ,date,for_payment_of,null,amount from receipt where party_id=?1 and (date>=?2 or ?2 is null) and (date<=?3 or ?3 is null) "
 				+ "union all\r\n"
 				+ "select concat('CP-',LPAD(cash_voucher_id,4,'0')),date,for_payment_of,amount,null from cash_voucher where party_id=?1 and (date>=?2 or ?2 is null) and (date<=?3 or ?3 is null)\r\n"
 				+ "union all\r\n"

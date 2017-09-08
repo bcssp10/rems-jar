@@ -53,10 +53,10 @@ import com.rems.party.Party;
 				"group by cash_paid_by\r\n" +
 				"union all\r\n" + 
 				"select party_id,null,null,debitOB,creditOB from party where party_id != 1"+
-				") t1\r\n" + 
+				") t1 where t1.id is not null \r\n" + 
 				"group by party_id"),
 		
-		@NamedNativeQuery(name = "GeneralVoucher.findTrialBalanceforCash", query = "select (select name from party where party_id = 1) name,(select sum(amount) from cash_voucher where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)) - (select sum(amount) from receipt where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)) amount from dual"),
+		@NamedNativeQuery(name = "GeneralVoucher.findTrialBalanceforCash", query = "select (select name from party where party_id = 1) name,coalesce((select sum(amount) from cash_voucher where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)) - (select sum(amount) from receipt where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null)),0) amount from dual"),
 		
 		// find General Ledger 
 		@NamedNativeQuery(name = "GeneralVoucher.findGLforCash", query = "select concat('CR-',LPAD(receipt_id,4,'0')) as id,date,for_payment_of,amount as debit,null as credit from receipt where (date>=?1 or ?1 is null) and (date<=?2 or ?2 is null) \r\n"

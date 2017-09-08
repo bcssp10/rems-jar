@@ -18,7 +18,7 @@ public class Party {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "party_id")
+	@Column(name = "party_id",columnDefinition="INT(10) UNSIGNED")
 	private int partyId = -1;
 	
 	private String name;
@@ -27,13 +27,15 @@ public class Party {
 
 	private String address;
 	
+	private double debitOB;
+	
+	private double creditOB;
+	
 	@OneToMany(mappedBy="party",fetch = FetchType.LAZY)
 	private List<Receipt> receipts;
 	
 	@OneToMany(mappedBy="party",fetch = FetchType.LAZY)
 	private List<CashVoucher> cashVouchers;
-	
-	
 	
 	public int getPartyId() {
 		return partyId;
@@ -65,6 +67,21 @@ public class Party {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	public double getDebitOB() {
+		return debitOB;
+	}
+
+	public void setDebitOB(double debitOB) {
+		this.debitOB = debitOB;
+	}
+
+	public double getCreditOB() {
+		return creditOB;
+	}
+
+	public void setCreditOB(double creditOB) {
+		this.creditOB = creditOB;
 	}
 
 	public List<Receipt> getReceipts() {

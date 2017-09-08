@@ -53,6 +53,8 @@
 					<th>Name</th>
 					<th>Phone</th>
 					<th>Address</th>
+					<th>Debit OB</th>
+					<th>Credit OB</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -67,6 +69,8 @@
 						<td>${party.name}</td>
 						<td>${party.phone}</td>
 						<td>${party.address}</td>
+						<td>${party.debitOB}</td>
+						<td>${party.creditOB}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

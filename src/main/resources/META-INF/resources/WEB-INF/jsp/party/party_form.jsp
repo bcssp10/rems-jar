@@ -46,6 +46,14 @@
 					<label for="address">Address</label>
 					<form:input type="text" class="form-control" path="address" />
 				</div>
+				<div class="col-xs-3 form-group">
+					<label for="debitOB">Debit OB</label>
+					<form:input type="text" class="form-control" path="debitOB" />
+				</div>
+				<div class="col-xs-3 form-group">
+					<label for="creditOB">Credit OB</label>
+					<form:input type="text" class="form-control" path="creditOB" />
+				</div>
 
 			</div>
 			<div class="row">

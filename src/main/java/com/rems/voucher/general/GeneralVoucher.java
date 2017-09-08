@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -41,7 +42,7 @@ public class GeneralVoucher {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "general_voucher_id")
+	@Column(name = "general_voucher_id",columnDefinition="INT(10) UNSIGNED")
 	private int generalVoucherId = -1;
 
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
@@ -49,14 +50,14 @@ public class GeneralVoucher {
 	private Date date;
 
 	@ManyToOne
-	@JoinColumn(name = "cash_paid_to", nullable = true)
+	@JoinColumn(name = "cash_paid_to",foreignKey = @ForeignKey(name = "FK_GENERAL_VOUCHER_PAID_TO"),nullable = true)
 	private Party cashPaidTo;
 
 	@Column(name = "amount")
 	private Double amount;
 
 	@ManyToOne
-	@JoinColumn(name = "cash_paid_by", nullable = true)
+	@JoinColumn(name = "cash_paid_by",foreignKey = @ForeignKey(name = "FK_GENERAL_VOUCHER_PAID_BY"),nullable = true)
 	private Party cashPaidBy;
 
 	@Column(name = "details")

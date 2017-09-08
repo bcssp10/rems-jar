@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.ForeignKey;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -29,11 +30,11 @@ public class Receipt {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "receipt_id")
+	@Column(name = "receipt_id",columnDefinition="INT(10) UNSIGNED")
 	private int receiptId = -1;
 
 	@ManyToOne
-	@JoinColumn(name="party_id",nullable=true)
+	@JoinColumn(name="party_id",foreignKey = @ForeignKey(name = "FK_RECEIPT_PARTY"),nullable=true)
 	private Party party;
 
 	@DateTimeFormat(pattern = "dd/MM/yyyy")

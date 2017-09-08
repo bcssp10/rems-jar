@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,11 +29,11 @@ public class CashVoucher {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "cash_voucher_id")
+	@Column(name = "cash_voucher_id",columnDefinition="INT(10) UNSIGNED")
 	private int cashVoucherId = -1;
 
 	@ManyToOne
-	@JoinColumn(name = "party_id", nullable = true)
+	@JoinColumn(name = "party_id",foreignKey = @ForeignKey(name = "FK_CASH_VOUCHER_PARTY"),nullable = true)
 	private Party party;
 
 	@DateTimeFormat(pattern = "dd/MM/yyyy")

@@ -97,9 +97,9 @@
 								<td><strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${totalCredit}"/></strong></td>
 							</tr>
 							<tr>
-								<td><strong>Net Income: </strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${totalDebit}"/> - 
-								<fmt:formatNumber type="number" maxFractionDigits="5" value="${totalCredit}"/> = 
-								<strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${totalDebit - totalCredit}"/></strong></td>
+								<td><strong>Net Income: </strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${totalCredit}"/> - 
+								<fmt:formatNumber type="number" maxFractionDigits="5" value="${totalDebit}"/> = 
+								<strong><fmt:formatNumber type="number" maxFractionDigits="5" value="${totalCredit - totalDebit}"/></strong></td>
 								<td></td>
 								<td></td>
 								<td></td>

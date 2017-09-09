@@ -24,7 +24,7 @@
 				</div>
 
 				<div class="col-xs-3 form-group">
-					<label for="party">Purchase Account</label> 
+					<label for="party">Sale Account</label> 
 					<select id="purchasePartyId" name="purchasePartyId" class="form-control">
 						<c:forEach var="party" items="${partyList}">
 							<option value="${party.partyId}">${party.name}</option>
@@ -33,7 +33,7 @@
 				</div>
 				
 				<div class="col-xs-3 form-group">
-					<label for="party">Sale Account</label> 
+					<label for="party">Purchase Account</label> 
 					<select id="salePartyId" name="salePartyId" class="form-control">
 						<c:forEach var="party" items="${partyList}">
 							<option value="${party.partyId}">${party.name}</option>

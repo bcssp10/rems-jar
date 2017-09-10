@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.rems.enumeration.PaymentType;
 import com.rems.party.PartyService;
@@ -55,22 +56,25 @@ public class ReceiptController {
 
 	// save new receipt
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String saveReceipt(Model model, @ModelAttribute("receipt") Receipt receipt) {
+	public String saveReceipt(Model model, @ModelAttribute("receipt") Receipt receipt, RedirectAttributes redirectAttributes) {
 		receiptService.save(receipt);
+		redirectAttributes.addFlashAttribute("successMsg","Receipt Added Successfully");
 		return "redirect:/receipt";
 	}
 
 	// update receipt
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-	public String updateReceipt(@ModelAttribute Receipt receipt, Model model, @PathVariable int id) {
+	public String updateReceipt(@ModelAttribute Receipt receipt, Model model, @PathVariable int id,RedirectAttributes redirectAttributes) {
 		receiptService.updateReceiptById(id, receipt);
+		redirectAttributes.addFlashAttribute("successMsg","Receipt Updated Successfully");
 		return "redirect:/receipt";
 	}
 
 	// delete receipt
 	@RequestMapping(value = "/delete/{id}")
-	public String deleteRecipet(Model model, @PathVariable int id) {
+	public String deleteRecipet(Model model, @PathVariable int id,RedirectAttributes redirectAttributes) {
 		receiptService.deleteReceipt(id);
+		redirectAttributes.addFlashAttribute("successMsg","Receipt Deleted Successfully");
 		return "redirect:/receipt";
 	}
 

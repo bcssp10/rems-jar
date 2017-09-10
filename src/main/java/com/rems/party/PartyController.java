@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/party")
@@ -52,24 +53,27 @@ public class PartyController {
 	
 	// save new party
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String saveParty(Model model, @ModelAttribute("party") Party party) {
+	public String saveParty(Model model, @ModelAttribute("party") Party party,RedirectAttributes redirectAttributes) {
 		partyService.save(party);
+		redirectAttributes.addFlashAttribute("successMsg","Party Added Successfully");
 		return "redirect:/party";
 	}
 
 	// update party
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-	public String updateParty(@ModelAttribute Party party, Model model, @PathVariable int id) {
+	public String updateParty(@ModelAttribute Party party, Model model, @PathVariable int id,RedirectAttributes redirectAttributes) {
 		partyService.updatePartyById(id, party);
+		redirectAttributes.addFlashAttribute("successMsg","Party Updated Successfully");
 		return "redirect:/party";
 	}
 
 	// delete party
 	@RequestMapping(value = "/delete/{id}")
-	public String deleteParty(Model model, @PathVariable int id) {
+	public String deleteParty(Model model, @PathVariable int id,RedirectAttributes redirectAttributes) {
 		
 		if(id != 1)
 			partyService.deleteParty(id);
+		redirectAttributes.addFlashAttribute("successMsg","Party Deleted Successfully");
 		
 		return "redirect:/party";
 	}

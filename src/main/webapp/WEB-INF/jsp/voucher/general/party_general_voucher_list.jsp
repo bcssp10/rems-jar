@@ -4,10 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<html>
 
-<jsp:include page="../fragment/header.jsp" />
+<jsp:include page="../../fragment/header.jsp" />
 
 <head>
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
@@ -30,73 +29,38 @@ p{text-align:center}
 <br>
 
 	<div class="container">
-	<c:choose>
-			<c:when test="${successMsg ne null}">
-				<div id="msg" th:if="${successMsg}"
-					class="alert alert-success fade in" role="alert">
-					<p th:text="">${successMsg}</p>
-				</div>
-			</c:when>
-			<c:otherwise></c:otherwise>
-		</c:choose>
-		<a href='<c:url value="/receipt/add"/>'><button type="button"
-				class="btn btn-primary btn-sx pull-right">Add New Receipt</button> <br><br>
-		</a>
         <div class="row">
 			<div class="col-md-12">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						<h3 class="panel-title">Receipt List</h3>						
+						<h3 class="panel-title">Party General Vouchers</h3>						
 					</div>
 					<br>
         <div class="table-responsive">
 		<table class="table table-bordered dt-responsive nowrap table table-striped" id="rec_table">
 			<thead style="background-color:#689efd">
 				<tr>
-				    <th>Actions</th>
+				    
 					<th>No.</th>
-					<th>Date</th>
-					<th>Party Name</th>
+					<th>Paid To</th>
+					<th>Paid By</th>
 					<th>Amount</th>
-					<th>Payment Type</th>
-                    <!-- babat -->
-   					<th>For Payment of</th>
-					<th>Bank</th>
-					<th>Branch</th>
-					<th>Cheque No</th>
-					<!-- ReferenceName -->
-					<th>Received By</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="receipt" items="${receipts}">
+				<c:forEach var="generalVoucher" items="${generalVoucher}">
 					<tr>
-					    <td><a href="/receipt/${receipt.receiptId}">
-						 <span title="Edit" class="glyphicon glyphicon-pencil" ></span></a>&nbsp;
-				         <a href="/receipt/delete/${receipt.receiptId}"> 
-				         <span title="Delete" class="glyphicon glyphicon-trash"></span></a>&nbsp;
-						<a href="/receipt/print/${receipt.receiptId}">
-						<span title="Print" class="glyphicon glyphicon-print"></span></a>
-						</td>
 						<td> 
-						${receipt.receiptId}
+						${generalVoucher.generalVoucherId}
 						</td>
-						<fmt:formatDate pattern="dd/MM/yyyy" value="${receipt.date}"
-							var="date" />
-						<td>${date}</td>
-						<td><a href="/receipt/party/${receipt.party.partyId}">${receipt.party.name}</a></td>
-						<td>${receipt.amount}</td>
-						<td>${receipt.paymentType}</td>
-						<td>${receipt.forPaymentOf}</td>
-						<td>${receipt.bankName}</td>
-						<td>${receipt.bankBranch}</td>
-						<td>${receipt.chequeNo}</td>
-						<td>${receipt.cashReceivedBy}</td>
+						<td>${generalVoucher.cashPaidTo.name}</td>
+						<td>${generalVoucher.cashPaidBy.name}</td>
+						<td>${generalVoucher.amount}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
-		<p><b>Total Amount :</b> ${total} </p>
+		<p><b>Total Amount :</b> <fmt:formatNumber type="number" maxFractionDigits="5" value="${total}"/> </p>
 		</div>
 		</div>
 		</div>
@@ -107,9 +71,8 @@ p{text-align:center}
 <script type="text/javascript">
 $(document).ready(function() {
     $('#rec_table').DataTable();
-    $("#receipt_page").addClass('active');
+    $("#general_voucher_page").addClass('active');
 } );
-$('#msg').delay(2000).fadeOut(1000);
 </script>
     
      <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>

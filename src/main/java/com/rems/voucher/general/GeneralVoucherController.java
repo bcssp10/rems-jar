@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.rems.party.PartyService;
 import com.rems.util.ParamFactory;
@@ -55,23 +56,27 @@ public class GeneralVoucherController {
 
 	// save new receipt
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String saveGeneralVoucher(Model model, @ModelAttribute("general_voucher") GeneralVoucher generalVoucher) {
+	public String saveGeneralVoucher(Model model, @ModelAttribute("general_voucher") GeneralVoucher generalVoucher
+			,RedirectAttributes redirectAttributes) {
 		generalVoucherService.save(generalVoucher);
+		redirectAttributes.addFlashAttribute("successMsg","Voucher Added Successfully");
 		return "redirect:/voucher/general";
 	}
 
 	// update receipt
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
 	public String updateGeneralVoucher(@ModelAttribute GeneralVoucher generalVoucher, Model model,
-			@PathVariable int id) {
+			@PathVariable int id,RedirectAttributes redirectAttributes) {
 		generalVoucherService.updateGeneralVoucherById(id, generalVoucher);
+		redirectAttributes.addFlashAttribute("successMsg","Voucher Updated Successfully");
 		return "redirect:/voucher/general";
 	}
 
 	// delete receipt
 	@RequestMapping(value = "/delete/{id}")
-	public String deleteGeneralVoucher(Model model, @PathVariable int id) {
+	public String deleteGeneralVoucher(Model model, @PathVariable int id,RedirectAttributes redirectAttributes) {
 		generalVoucherService.deleteGeneralVoucher(id);
+		redirectAttributes.addFlashAttribute("successMsg","Voucher Deleted Successfully");
 		return "redirect:/voucher/general";
 	}
 

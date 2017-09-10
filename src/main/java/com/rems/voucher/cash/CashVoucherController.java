@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.rems.enumeration.PaymentType;
 import com.rems.party.PartyService;
@@ -55,22 +56,25 @@ public class CashVoucherController {
 
 	// save new receipt
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String saveCashVoucher(Model model, @ModelAttribute("cash_voucher") CashVoucher cashVoucher) {
+	public String saveCashVoucher(Model model, @ModelAttribute("cash_voucher") CashVoucher cashVoucher,RedirectAttributes redirectAttributes) {
 		cashVoucherService.save(cashVoucher);
+		redirectAttributes.addFlashAttribute("successMsg","Voucher Added Successfully");
 		return "redirect:/voucher/cash";
 	}
 
 	// update receipt
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-	public String updateCashVoucher(@ModelAttribute CashVoucher cashVoucher, Model model, @PathVariable int id) {
+	public String updateCashVoucher(@ModelAttribute CashVoucher cashVoucher, Model model, @PathVariable int id,RedirectAttributes redirectAttributes) {
 		cashVoucherService.updateCashVoucherById(id, cashVoucher);
+		redirectAttributes.addFlashAttribute("successMsg","Voucher Updated Successfully");
 		return "redirect:/voucher/cash";
 	}
 
 	// delete receipt
 	@RequestMapping(value = "/delete/{id}")
-	public String deleteCashVoucher(Model model, @PathVariable int id) {
+	public String deleteCashVoucher(Model model, @PathVariable int id,RedirectAttributes redirectAttributes) {
 		cashVoucherService.deleteCashVoucher(id);
+		redirectAttributes.addFlashAttribute("successMsg","Voucher Deleted Successfully");
 		return "redirect:/voucher/cash";
 	}
 

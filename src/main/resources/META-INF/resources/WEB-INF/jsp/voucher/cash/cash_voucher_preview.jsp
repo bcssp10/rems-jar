@@ -20,7 +20,7 @@ font-size: 110%;
 	margin: 5mm;
 }
 
-h1 {
+h1,h4,h5{
 	text-align: center;
 }
 </style>

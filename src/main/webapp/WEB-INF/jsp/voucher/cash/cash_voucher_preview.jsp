@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html lang="en">
-<jsp:include page="../fragment/header.jsp" />
+<jsp:include page="../../fragment/header.jsp" />
 <head>
 <style>
 p {
@@ -34,16 +34,16 @@ h1,h4,h5 {
 	<br>
 	<br>
 	<div class="container">
-		<form:form class="form-inline" modelAttribute="receipt">
-			<form:hidden class="form-control" value="${receipt.receiptId}"
-				path="receiptId" />
+		<form:form class="form-inline" modelAttribute="cash_voucher">
+			<form:hidden class="form-control" value="${cash_voucher.cashVoucherId}"
+				path="cashVoucherId" />
 
 
 
 			<div class="col-xs-12">
 				<div class="col-xs-4 form-group row">
 					<label for="date" class="col-sm-2 col-form-label">Date</label>
-					<fmt:formatDate pattern="dd/MM/yyyy" value="${receipt.date}"
+					<fmt:formatDate pattern="dd/MM/yyyy" value="${cash_voucher.date}"
 						var="date" />
 					<div class="col-sm-10">
 						<p>
@@ -53,14 +53,14 @@ h1,h4,h5 {
 					</div>
 				</div>
 				<div class="col-xs-4 form-group row">
-					<h3 style="text-align: center">Cash Receipt</h3>
+					<h3 style="text-align: center">Cash Voucher</h3>
 				</div>
 
 				<div class="col-xs-4 form-group row">
 					<label for="receiptId" class="col-sm-2 col-form-label">No</label>
 					<div class="col-sm-10">
 						<p>
-							<c:out value="${receipt.receiptId}" />
+							<c:out value="${cash_voucher.cashVoucherId}" />
 							&nbsp;
 						</p>
 						<br>
@@ -71,8 +71,8 @@ h1,h4,h5 {
 						From</label>
 					<div class="col-sm-4">
 						<p>
-							<c:out value="${receipt.party.name}" />
-							&nbsp;
+							<c:out value="${cash_voucher.party.name}" />
+						    &nbsp;
 						</p>
 					</div>
 				</div>
@@ -81,8 +81,8 @@ h1,h4,h5 {
 					<label for="amount" class="col-sm-2 col-form-label">Amount</label>
 					<div class="col-sm-4">
 						<p>
-							<c:out value="Rs:${receipt.amount}/-" />
-							&nbsp;
+							<c:out value="Rs:${cash_voucher.amount}/-" />
+						    &nbsp;
 						</p>
 					</div>
 				</div>
@@ -92,54 +92,55 @@ h1,h4,h5 {
 						Type</label>
 					<div class="col-sm-4">
 						<p>
-							<c:out value="${receipt.paymentType}" />
-							&nbsp;
-						</p>
-					</div>
-				</div>
-
-				<div class="col-xs-10 form-group row">
-					<label for="forPaymentOf" class="col-sm-2 col-form-label">For
-						Payment of</label>
-					<div class="col-sm-10">
-						<p>
-							<c:out value="${receipt.forPaymentOf}" />
+							<c:out value="${cash_voucher.paymentType}" />
 							&nbsp;
 						</p>
 						<br>
 					</div>
 				</div>
 
+				<div class="col-xs-10 form-group row">
+					<label for="forPaymentOf" class="col-sm-2 col-form-label">For
+						Payment of</label>
+					<div class="col-sm-9">
+						<p>
+							<c:out value="${cash_voucher.forPaymentOf}" />
+							&nbsp;
+						</p>
+					</div>
+				</div>
+
 				<div class="col-xs-3 form-group">
 					<label for="bankName">Bank</label>
 					<p>
-						<c:out value="${receipt.bankName}" />
+						<c:out value="${cash_voucher.bankName}" />
 						&nbsp;
 					</p>
 				</div>
 				<div class="col-xs-3 form-group">
 					<label for="bankBranch">Branch</label>
 					<p>
-						<c:out value="${receipt.bankBranch}" />
+						<c:out value="${cash_voucher.bankBranch}" />
 						&nbsp;
 					</p>
 				</div>
 				<div class="col-xs-3 form-group">
 					<label for="chequeNo">Cheque No</label>
 					<p>
-						<c:out value="${receipt.chequeNo}" />
+						<c:out value="${cash_voucher.chequeNo}" />
 						&nbsp;
 					</p>
 				</div>
 				<div class="col-xs-3 form-group">
-					<label for="cashReceivedBy">Received By</label>
+					<label for="cashReceivedBy">Paid By</label>
 					<p>
-						<c:out value="${receipt.cashReceivedBy}" />
+						<c:out value="${cash_voucher.cashReceivedBy}" />
 						&nbsp;
 					</p>
 					<br> <br>
 				</div>
 			</div>
+			
 				<div class="col-xs-4">
 					<label class="col-sm-2 col-form-label">Receiver</label>
 					<div class="col-sm-3">
@@ -154,7 +155,7 @@ h1,h4,h5 {
 				<div class="col-xs-4"></div>
 				<button id="printpagebutton" type="button"
 					class="btn btn-primary btn-sx pull-right" onclick="myFunction()">Print
-					Receipt</button>
+					Cash Voucher</button>
 			
 		</form:form>
 	</div>
@@ -162,7 +163,7 @@ h1,h4,h5 {
 </body>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("#receipt_page").addClass('active');
+		$("#cash_voucher_page").addClass('active');
 	});
 	function myFunction() {
 
